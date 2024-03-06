@@ -87,6 +87,7 @@ export function createNewPersonWithGenderFromRel({data, rel_type, rel_datum}) {
 }
 
 export function addNewPerson({data_stash, datum}) {
+  console.log('ADDING NEW PERSON', data_stash, datum);
   data_stash.push(datum)
 }
 

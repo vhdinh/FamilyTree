@@ -12,8 +12,8 @@ export function data() {
                 ]
             },
             data: {
-                "first name": "Quang",
-                "last name": "Dinh",
+                "firstName": "Quang",
+                "lastName": "Dinh",
                 birthday: "1970",
                 avatar:
                     "https://static8.depositphotos.com/1009634/988/v/950/depositphotos_9883921-stock-illustration-no-user-profile-picture.jpg",
