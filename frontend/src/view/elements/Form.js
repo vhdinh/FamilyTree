@@ -50,9 +50,7 @@ export default function Form({datum, rel_datum, store, rel_type, card_edit, post
     e.preventDefault()
     const form_data = new FormData(e.target)
     form_data.forEach((v, k) => datum.data[k] = v)
-
     close()
-    // TODO: add person
     postSubmit()
   }
 

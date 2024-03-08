@@ -3,32 +3,29 @@ let Member = require('../models/member.model');
 
 router.route('/').get((req, res) => {
     Member.find()
-        .then(c => res.json(c))
-        .catch(err => res.status(400).json('Error: ' + err));
+        .then(c => res.status(200).send(c))
+        .catch(err => res.status(400).send(err));
 });
 
-router.route('/add').post((req, res) => {
-    console.log('route /add:', req.body);
-    // const fName = req.body.firstName;
-    // const lName = req.body.lastName;
-    // const birthday = req.body.birthday
-
+router.route('/add-spouse').post((req, res) => {
     const newMember = new Member({
-        rels: {},
-        data: {
-            firstName: 'Vu',
-            lastName: 'Dinh',
-            birthday: '05/18/1988',
-        }
+        rels: {
+            spouses: [req.body.rel_datum.id]
+        },
+        data: req.body.datum.data
     });
 
     newMember.save()
-        .then((r) => {
-            console.log('user-saved:', r);
-            res.json(`Vu has been added`)
-            // res.json(`${fName} ${lName} has been added`)
+        .then(async (r) => {
+            Member.findByIdAndUpdate(req.body.rel_datum.id, {
+                $set: {"rels.spouses": [r._id]}
+            }).then((s) => {
+                res.status(200).send(r);
+            }).catch(err => res.status(400).send(err));
         })
-        .catch(err => res.status(400).json('error-saving-user: ' + err));
+        .catch(err => res.status(400).send(err));
 });
+
+
 
 module.exports = router;

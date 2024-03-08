@@ -42,6 +42,28 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum}) {
       rel_datum.rels[is_father ? 'father' : 'mother'] = datum.id
       handleSpouse()
       datum.rels.children = [rel_datum.id]
+
+      // Simple POST request with a JSON body using fetch
+      const dataToSend = {
+        datum,
+        rel_type,
+        rel_datum
+      }
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataToSend),
+      };
+      fetch(`${process.env.REACT_APP_API}/member/add-parent`, requestOptions)
+          .then(res => res.json())
+          .then((r) => {
+            console.log('ADDED-PARENT', r);
+
+          }).catch((e) => {
+        console.log('ERROR-ADDING_PARENT', e);
+      });
+
+
       return datum
 
       function handleSpouse() {
@@ -57,6 +79,26 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum}) {
   }
 
   function addSpouse(datum) {
+    // Simple POST request with a JSON body using fetch
+    const dataToSend = {
+      datum,
+      rel_type,
+      rel_datum
+    }
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dataToSend),
+    };
+    fetch(`${process.env.REACT_APP_API}/member/add-spouse`, requestOptions)
+        .then(res => res.json())
+        .then((r) => {
+          console.log('ADDED-SPOUSE', r);
+
+        }).catch((e) => {
+      console.log('ERROR-ADDING-SPOUSE', e);
+    });
+
     removeIfToAdd();
     if (!rel_datum.rels.spouses) rel_datum.rels.spouses = []
     rel_datum.rels.spouses.push(datum.id);

@@ -49,6 +49,7 @@ export default function CalculateTree({data_stash, main_id=null, is_vertical=tru
     }
 
     function hierarchyGetterParents(d) {
+      if (!d.rels.father || !d.rels.mother) return;
       return [d.rels.father, d.rels.mother]
         .filter(d => d).map(id => data_stash.find(d => d.id === id))
     }
