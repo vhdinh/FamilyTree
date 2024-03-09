@@ -23,13 +23,13 @@ router.route('/add-new').post(async (req, res) => {
                          Member.updateMany(
                             { _id: { $in: r.rels.children }},
                             { $set: {"rels.mother": r._id }}
-                        ).then((t) => res.status(200).send(t))
+                        ).then((t) => res.status(200).send(r))
                              .catch(err => res.status(400).send(err));
                     } else {
                          Member.updateMany(
                             { _id: { $in: r.rels.children }},
                             { $set: {"rels.father": r._id }}
-                        ).then((u) => res.status(200).send(u))
+                        ).then((u) => res.status(200).send(r))
                              .catch(err => res.status(400).send(err));
                     }
                 })
@@ -59,13 +59,13 @@ router.route('/add-spouse').post((req, res) => {
                     Member.updateMany(
                         { _id: { $in: spouse.rels.children }},
                         { $set: {"rels.mother": r._id }}
-                    ).then((t) => res.status(200).send(t))
+                    ).then((t) => res.status(200).send(r))
                         .catch(err => res.status(400).send(err));
                 } else {
                     Member.updateMany(
                         { _id: { $in: spouse.rels.children }},
                         { $set: {"rels.father": r._id }}
-                    ).then((u) => res.status(200).send(u))
+                    ).then((u) => res.status(200).send(r))
                         .catch(err => res.status(400).send(err));
                 }
             }).catch(err => res.status(400).send(err));
@@ -92,6 +92,30 @@ router.route('/add-parent').post((req, res) => {
         })
         .catch(err => res.status(400).send(err));
 });
+
+router.route('/add-kid').post((req, res) => {
+    // console.log('/add-kid', req.body);
+    const newKid = new Member({
+        data: req.body.data,
+        rels: req.body.rels
+    })
+    newKid.save()
+        .then(async (r) => {
+            // Update parents to contain kid's id
+            if (r.rels.father) {
+                await Member.findByIdAndUpdate(r.rels.father, {
+                    $push: { 'rels.children': r._id}
+                })
+            }
+            if (r.rels.mother) {
+                await Member.findByIdAndUpdate(r.rels.mother, {
+                    $push: { 'rels.children': r._id}
+                })
+            }
+            res.status(200).send(r);
+        })
+        .catch(err => res.status(400).send(err));
+})
 
 
 

@@ -13,6 +13,26 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum}) {
     datum.rels[rel_datum.data.gender === 'M' ? 'father' : 'mother'] = rel_datum.id
     if (!rel_datum.rels.children) rel_datum.rels.children = []
     rel_datum.rels.children.push(datum.id)
+
+    // Simple POST request with a JSON body using fetch
+    const dataToSend = {
+      data: datum.data,
+      rels: datum.rels
+    }
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dataToSend),
+    };
+    fetch(`${process.env.REACT_APP_API}/member/add-kid`, requestOptions)
+        .then(res => res.json())
+        .then((r) => {
+          console.log('ADDED-KID', r);
+          datum.id = r.id;
+        }).catch((e) => {
+      console.log('ERROR-ADDING-KID', e);
+    });
+
     return datum
 
     function addChildToSpouseAndParentToChild(spouse_id) {
@@ -58,6 +78,7 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum}) {
           .then(res => res.json())
           .then((r) => {
             console.log('ADDED-PARENT', r);
+            datum.id = r.id;
           }).catch((e) => {
         console.log('ERROR-ADDING_PARENT', e);
       });
@@ -92,8 +113,8 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum}) {
     fetch(`${process.env.REACT_APP_API}/member/add-spouse`, requestOptions)
         .then(res => res.json())
         .then((r) => {
-          console.log('ADDED-SPOUSE', r);
-
+          console.log('ADDED-SPOUSE', datum, r);
+          datum.id = r.id;
         }).catch((e) => {
       console.log('ERROR-ADDING-SPOUSE', e);
     });

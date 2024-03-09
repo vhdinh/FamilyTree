@@ -32,7 +32,7 @@ export function cardEdit(store, {card, d, cardEditForm}) {
                 .then(res => res.json())
                 .then((r) => {
                     console.log('ADDED-NEW', r);
-
+                    datum.id = r.id
                 }).catch((e) => {
                 console.log('ERROR-ADDING-NEW', e);
             });
