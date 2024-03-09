@@ -58,7 +58,6 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum}) {
           .then(res => res.json())
           .then((r) => {
             console.log('ADDED-PARENT', r);
-
           }).catch((e) => {
         console.log('ERROR-ADDING_PARENT', e);
       });
@@ -129,7 +128,6 @@ export function createNewPersonWithGenderFromRel({data, rel_type, rel_datum}) {
 }
 
 export function addNewPerson({data_stash, datum}) {
-  console.log('ADDING NEW PERSON', data_stash, datum);
   data_stash.push(datum)
 }
 

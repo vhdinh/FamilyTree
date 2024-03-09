@@ -77,11 +77,14 @@ function App() {
 
       function cardEditForm(props) {
           const postSubmit = props.postSubmit;
-          props.postSubmit = (ps_props) => {postSubmit(ps_props)}
+          props.postSubmit = (ps_props) => {
+              console.log('ps_props', ps_props);
+              postSubmit(ps_props)
+          }
           const el = document.querySelector('#form_modal'),
               modal = M.Modal.getInstance(el),
               edit = {el, open:()=>modal.open(), close:()=>modal.close()}
-          Form({...props, card_edit, card_display, edit})
+           return Form({...props, card_edit, card_display, edit})
       }
 
     view.setCard(UserCard);

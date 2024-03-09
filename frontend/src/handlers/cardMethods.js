@@ -12,12 +12,32 @@ export function cardChangeMain(store, {card, d}) {
 export function cardEdit(store, {card, d, cardEditForm}) {
   const datum = d.data,
     postSubmit = (props) => {
-      if (datum.to_add) moveToAddToAdded(datum, store.getData())
+    if (datum.to_add) moveToAddToAdded(datum, store.getData())
       if (props && props.delete) {
         if (datum.main) store.update.mainId(null)
         deletePerson(datum, store.getData())
       }
-      store.update.tree()
+        if (!props) {
+            // Simple POST request with a JSON body using fetch
+            const dataToSend = {
+                data: datum.data,
+                rels: datum.rels
+            }
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dataToSend),
+            };
+            fetch(`${process.env.REACT_APP_API}/member/add-new`, requestOptions)
+                .then(res => res.json())
+                .then((r) => {
+                    console.log('ADDED-NEW', r);
+
+                }).catch((e) => {
+                console.log('ERROR-ADDING-NEW', e);
+            });
+        }
+        store.update.tree()
     }
   cardEditForm({datum, postSubmit, store})
 }
