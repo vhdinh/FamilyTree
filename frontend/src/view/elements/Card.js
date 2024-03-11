@@ -57,10 +57,10 @@ export function Card(props) {
     if (p) p.addEventListener("click", (e) => {e.stopPropagation();cardChangeMain(store, {card:el, d})})
 
     p = el.querySelector(".card_edit")
-    if (p && props.cardEditForm) p.addEventListener("click", (e) => {e.stopPropagation();cardEdit(store, {card:el, d, cardEditForm: props.cardEditForm})})
+    if (p && props.cardEditForm) p.addEventListener("click", (e) => {e.stopPropagation();cardEdit(store, {card:el, d, cardEditForm: props.cardEditForm, status: 'editing'})})
 
     p = el.querySelector(".card_add")
-    if (p && props.cardEditForm) p.addEventListener("click", (e) => {e.stopPropagation();cardEdit(store, {card:el, d, cardEditForm: props.cardEditForm})})
+    if (p && props.cardEditForm) p.addEventListener("click", (e) => {e.stopPropagation();cardEdit(store, {card:el, d, cardEditForm: props.cardEditForm, status: 'adding'})})
 
     p = el.querySelector(".card_add_relative")
     if (p) p.addEventListener("click", (e) => {e.stopPropagation();props.addRelative({d})})

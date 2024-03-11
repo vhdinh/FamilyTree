@@ -6,12 +6,11 @@ import Card from './view/elements/Card';
 import {AddRelative} from "./AddRelativeTree/AddRelativeTree.AddRelative";
 import Form from "./view/elements/Form";
 import {generateUUID} from "./handlers/general";
-import { v4 as uuidv4 } from 'uuid';
 
 function App() {
   const container = useRef();
   const [loading, setLoading] = useState(true);
-  const [members, setMembers] = useState();
+  const [members, setMembers] = useState([]);
 
     const getMembers = () => {
         // Simple GET request with a JSON body using fetch
@@ -25,15 +24,17 @@ function App() {
 
     useEffect(() => {
         getMembers();
-    }, [])
+    }, [loading])
 
     const cardDisplay = () => {
         const d1 = d => `${d.data['firstName'] || ''} ${d.data['lastName'] || ''}`,
-            d2 = d => `${d.data['birthday'] || ''}`
+            d2 = d => `${d.data['birthday'] || ''}`,
+            d3 = d => `${d.data['link'] || ''}`
         d1.create_form = "{firstName} {lastName}"
         d2.create_form = "{birthday}"
+        d3.create_form = "{link}"
 
-        return [d1, d2]
+        return [d1, d2, d3]
     }
 
     const  cardEditParams = () => {
@@ -41,7 +42,8 @@ function App() {
             {type: 'text', placeholder: 'first name', key: 'firstName'},
             {type: 'text', placeholder: 'last name', key: 'lastName'},
             {type: 'text', placeholder: 'birthday', key: 'birthday'},
-            {type: 'text', placeholder: 'avatar', key: 'avatar'}
+            {type: 'text', placeholder: 'avatar', key: 'avatar'},
+            {type: 'text', placeholder: 'link', key: 'link'},
         ]
     }
 
@@ -67,7 +69,8 @@ function App() {
           card_dim: card_dim,
           card_display: [
             (d) => `${d.data["firstName"] || ""} ${d.data["lastName"] || ""}`,
-            (d) => `${d.data["birthday"] || ""}`
+            (d) => `${d.data["birthday"] || ""}`,
+            (d) => `${d.data["link"] || ""}`
           ],
           cardEditForm,
           addRelative: AddRelative({store, cont, card_dim, cardEditForm, labels: {mother: 'Add mother'}}),
@@ -78,7 +81,6 @@ function App() {
       function cardEditForm(props) {
           const postSubmit = props.postSubmit;
           props.postSubmit = (ps_props) => {
-              console.log('ps_props', ps_props);
               postSubmit(ps_props)
           }
           const el = document.querySelector('#form_modal'),
@@ -93,29 +95,45 @@ function App() {
 
   }, [container, loading])
 
-    const addVu = () => {
+    const addNewUser = () => {
         // handle submit
         // Simple POST request with a JSON body using fetch
-        const randomId = uuidv4()
+        const randomId = generateUUID()
+        const dataToSend = {
+            "rels": {
+                "spouses": [],
+                "children": []
+            },
+            "data": {
+                "firstName": "First",
+                "lastName": "User",
+                "birthday": "01/01/1980",
+                "gender": "M"
+            },
+            id: randomId,
+        }
         const requestOptions = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({id: randomId}),
+            body: JSON.stringify(dataToSend),
         };
-        fetch(`${process.env.REACT_APP_API}/member/add`, requestOptions)
+        fetch(`${process.env.REACT_APP_API}/member/add-new`, requestOptions)
             .then(res => res.json())
             .then((r) => {
-                console.log('RRR', r.includes('error-invalid-phone'));
-
+                console.log('RRR', r);
             }).catch((e) => {
             console.log('caughtttt', e);
-        }).finally(() => setLoading(false));
+        }).finally(() => setLoading(!loading));
     }
 
   return (
       <>
-          {/*<button onClick={() => addVu()}>add</button>*/}
-          <div className="f3" id="FamilyChart" ref={container}></div>
+          {
+              !members || !members.length ?
+                  (<>
+                      <button onClick={() => addNewUser()}>add first user</button>
+                  </>) : <div className="f3" id="FamilyChart" ref={container}></div>
+          }
       </>
   );
 }

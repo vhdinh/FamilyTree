@@ -31,6 +31,9 @@
 .f3 .card-genderless .text-overflow-mask {
   fill: lightgray;
 }
+.f3 .card-male a {
+  fill: #3b5560;
+}
 .f3 .card_add .card-body-rect {
   fill: #3b5560;
   stroke-width: 4px;

@@ -49,13 +49,13 @@ export default function CalculateTree({data_stash, main_id=null, is_vertical=tru
     }
 
     function hierarchyGetterParents(d) {
-      if (!d.rels.father || !d.rels.mother) return;
-      return [d.rels.father, d.rels.mother]
+      if (!d.rels?.father || !d.rels?.mother) return;
+      return [d.rels?.father, d.rels?.mother]
         .filter(d => d).map(id => data_stash.find(d => d.id === id))
     }
 
     function offsetOnPartners(a,b) {
-      return (Math.max((a.data.rels.spouses || []).length, (b.data.rels.spouses || []).length))*.5+.5
+      return (Math.max((a.data.rels?.spouses || []).length, (b.data.rels?.spouses || []).length))*.5+.5
     }
   }
 
@@ -83,10 +83,10 @@ export default function CalculateTree({data_stash, main_id=null, is_vertical=tru
   function setupSpouses({tree, node_separation}) {
     for (let i = tree.length; i--;) {
       const d = tree[i]
-      if (!d.is_ancestry && d.data.rels.spouses && d.data.rels.spouses.length > 0){
+      if (!d.is_ancestry && d.data.rels?.spouses && d.data.rels?.spouses.length > 0){
         const side = d.data.data.gender === "M" ? -1 : 1;  // female on right
-        d.x += d.data.rels.spouses.length/2*node_separation*side;
-        d.data.rels.spouses.forEach((sp_id, i) => {
+        d.x += d.data.rels.spouses?.length/2*node_separation*side;
+        d.data.rels?.spouses.forEach((sp_id, i) => {
           const spouse = {data: data_stash.find(d0 => d0.id === sp_id), added: true}
 
           spouse.x = d.x-(node_separation*(i+1))*side;
@@ -99,8 +99,8 @@ export default function CalculateTree({data_stash, main_id=null, is_vertical=tru
           tree.push(spouse)
 
           tree.forEach(d0 => (
-            (d0.data.rels.father === d.data.id && d0.data.rels.mother === spouse.data.id) ||
-            (d0.data.rels.mother === d.data.id && d0.data.rels.father === spouse.data.id)
+            (d0.data.rels?.father === d.data.id && d0.data.rels?.mother === spouse.data.id) ||
+            (d0.data.rels?.mother === d.data.id && d0.data.rels?.father === spouse.data.id)
             ) ? d0.psx = spouse.sx : null
           )
         })
@@ -146,8 +146,8 @@ export default function CalculateTree({data_stash, main_id=null, is_vertical=tru
     const to_add_spouses = [];
     for (let i = 0; i < data.length; i++) {
       const d = data[i];
-      if (d.rels.children && d.rels.children.length > 0) {
-        if (!d.rels.spouses) d.rels.spouses = []
+      if (d.rels?.children && d.rels?.children.length > 0) {
+        if (!d.rels?.spouses) d.rels.spouses = []
         const is_father = d.data.gender === "M"
         let spouse
 

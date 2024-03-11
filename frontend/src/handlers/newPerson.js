@@ -1,13 +1,13 @@
 import {generateUUID, removeToAdd} from "./general.js";
 
-export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum}) {
+export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum, store}) {
   if (rel_type === "daughter" || rel_type === "son") addChild(datum)
   else if (rel_type === "father" || rel_type === "mother") addParent(datum)
   else if (rel_type === "spouse") addSpouse(datum)
 
-  function addChild(datum) {
+  async function addChild(datum) {
     if (datum.data.other_parent) {
-      addChildToSpouseAndParentToChild(datum.data.other_parent)
+      await addChildToSpouseAndParentToChild(datum.data.other_parent)
       delete datum.data.other_parent
     }
     datum.rels[rel_datum.data.gender === 'M' ? 'father' : 'mother'] = rel_datum.id
@@ -17,35 +17,40 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum}) {
     // Simple POST request with a JSON body using fetch
     const dataToSend = {
       data: datum.data,
-      rels: datum.rels
+      rels: datum.rels,
+      id: datum.id,
     }
     const requestOptions = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(dataToSend),
     };
-    fetch(`${process.env.REACT_APP_API}/member/add-kid`, requestOptions)
+    console.log('dataToDend', {
+      rel_datum,
+      rel_type,
+      datum
+    });
+    await fetch(`${process.env.REACT_APP_API}/member/add-kid`, requestOptions)
         .then(res => res.json())
         .then((r) => {
           console.log('ADDED-KID', r);
-          datum.id = r.id;
         }).catch((e) => {
       console.log('ERROR-ADDING-KID', e);
     });
 
     return datum
 
-    function addChildToSpouseAndParentToChild(spouse_id) {
-      if (spouse_id === "_new") spouse_id = addOtherParent().id;
+    async function addChildToSpouseAndParentToChild(spouse_id) {
+      if (spouse_id === "_new") spouse_id = await addOtherParent().id;
 
       const spouse = data_stash.find(d => d.id === spouse_id)
       datum.rels[spouse.data.gender === 'M' ? 'father' : 'mother'] = spouse.id
       if (!spouse.rels.hasOwnProperty('children')) spouse.rels.children = []
       spouse.rels.children.push(datum.id)
 
-      function addOtherParent() {
+      async function addOtherParent() {
         const new_spouse = createNewPersonWithGenderFromRel({rel_type: "spouse", rel_datum})
-        addSpouse(new_spouse)
+        await addSpouse(new_spouse)
         addNewPerson({data_stash, datum: new_spouse})
         return new_spouse
       }
@@ -78,7 +83,6 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum}) {
           .then(res => res.json())
           .then((r) => {
             console.log('ADDED-PARENT', r);
-            datum.id = r.id;
           }).catch((e) => {
         console.log('ERROR-ADDING_PARENT', e);
       });
@@ -98,7 +102,7 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum}) {
     }
   }
 
-  function addSpouse(datum) {
+  async function addSpouse(datum) {
     // Simple POST request with a JSON body using fetch
     const dataToSend = {
       datum,
@@ -113,8 +117,7 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum}) {
     fetch(`${process.env.REACT_APP_API}/member/add-spouse`, requestOptions)
         .then(res => res.json())
         .then((r) => {
-          console.log('ADDED-SPOUSE', datum, r);
-          datum.id = r.id;
+          console.log('ADDED-SPOUSE', r);
         }).catch((e) => {
       console.log('ERROR-ADDING-SPOUSE', e);
     });

@@ -9,7 +9,8 @@ export function cardChangeMain(store, {card, d}) {
   return true
 }
 
-export function cardEdit(store, {card, d, cardEditForm}) {
+export function cardEdit(store, {card, d, cardEditForm, status}) {
+
   const datum = d.data,
     postSubmit = (props) => {
     if (datum.to_add) moveToAddToAdded(datum, store.getData())
@@ -19,23 +20,30 @@ export function cardEdit(store, {card, d, cardEditForm}) {
       }
         if (!props) {
             // Simple POST request with a JSON body using fetch
-            const dataToSend = {
-                data: datum.data,
-                rels: datum.rels
-            }
             const requestOptions = {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dataToSend),
+                body: JSON.stringify(datum),
             };
-            fetch(`${process.env.REACT_APP_API}/member/add-new`, requestOptions)
-                .then(res => res.json())
-                .then((r) => {
-                    console.log('ADDED-NEW', r);
-                    datum.id = r.id
-                }).catch((e) => {
-                console.log('ERROR-ADDING-NEW', e);
-            });
+
+            if (status === 'editing') {
+                fetch(`${process.env.REACT_APP_API}/member/edit/${datum.id}`, requestOptions)
+                    .then(res => res.json())
+                    .then((r) => {
+                        console.log('EDIT DONE', r);
+                    }).catch((e) => {
+                    console.log('ERROR-EDIT', e);
+                });
+            } else if (status === 'adding') {
+                fetch(`${process.env.REACT_APP_API}/member/add-new`, requestOptions)
+                    .then(res => res.json())
+                    .then((r) => {
+                        console.log('ADDED-NEW', r);
+                        datum.id = r.id
+                    }).catch((e) => {
+                    console.log('ERROR-ADDING-NEW', e);
+                });
+            }
         }
         store.update.tree()
     }
