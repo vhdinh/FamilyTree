@@ -31,6 +31,20 @@ export function deletePerson(datum, data_stash) {
     data_stash.splice(data_stash.findIndex(d => d.id === datum.id), 1)
     data_stash.forEach(d => {if (d.to_add) deletePerson(d, data_stash)})  // full update of tree
     if (data_stash.length === 0) data_stash.push(createTreeDataWithMainNode({}).data[0])
+    // delete
+    // Simple POST request with a JSON body using fetch
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({id: datum.id}),
+    };
+    fetch(`${process.env.REACT_APP_API}/member/delete/${datum.id}`, requestOptions)
+        .then(res => res.json())
+        .then((r) => {
+          console.log('DELETE DONE', r);
+        }).catch((e) => {
+      console.log('ERROR-DELETE', e);
+    });
   }
 }
 

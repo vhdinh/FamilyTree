@@ -9,7 +9,7 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/edit/:id').post((req, res) => {
-    console.log('route: /edit/:id/ ', req.body);
+    console.log(`route: /edit/${req.body.id}/ `, req.body);
     Member.findByIdAndUpdate(req.body.id, {data: req.body.data})
         .then((r) => res.status(200).send(r))
         .catch(err => res.status(400).send(err));
@@ -140,6 +140,38 @@ router.route('/add-kid').post((req, res) => {
         .catch(err => res.status(400).send(err));
 })
 
+router.route('/delete/:id').post(async (req, res) => {
+    console.log(`route: /delete/${req.body.id}`)
 
+    await Member.findByIdAndDelete(req.body.id);
+    console.log(`Member ${req.body.id} deleted`);
+    // delete father relation
+    await Member.updateMany({"rels.father": req.body.id}, {
+        $unset: { "rels.father": ""}
+    });
+    console.log(`Member ${req.body.id} father updated`);
+
+    // delete mother relation
+    await Member.updateMany({"rels.mother": req.body.id}, {
+        $unset: { "rels.mother": ""}
+    });
+    console.log(`Member ${req.body.id} mother updated`);
+
+    // delete children relation
+    await Member.updateMany(
+        { "rels.children": { "$in" : [req.body.id]}},
+        { $pull: { "rels.children": req.body.id  }}
+    )
+    console.log(`Member ${req.body.id} chilren updated`);
+
+    // delete spouse relation
+    await Member.updateMany(
+        { "rels.spouses": { "$in" : [req.body.id]}},
+        { $pull: { "rels.spouses": req.body.id  }}
+    )
+    console.log(`Member ${req.body.id} spouse updated`);
+
+    res.status(200).send({message: 'removed member'});
+});
 
 module.exports = router;
