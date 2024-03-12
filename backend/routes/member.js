@@ -116,14 +116,14 @@ router.route('/add-kid').post((req, res) => {
     newKid.save()
         .then(async (r) => {
             // Update parents to contain kid's id
-            if (r.rels?.father && r.rels?.father.toString().split('-').length === 1) {
+            if (r.rels?.father) {
                 console.log('route: /add-kid newKid saved , adding-father');
                 await Member.findByIdAndUpdate(r.rels.father, {
                     $push: { 'rels.children': r._id}
                 })
             }
-            if (r.rels?.mother && r.rels?.mother.toString().split('-').length === 1) {
-                console.log('route: /add-kid newKid saved, adding mother');
+            if (r.rels?.mother) {
+                console.log('route: /add-kid, adding mother');
                 await Member.findByIdAndUpdate(r.rels.mother, {
                     $push: { 'rels.children': r._id}
                 })
