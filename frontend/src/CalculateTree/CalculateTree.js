@@ -23,7 +23,9 @@ export default function CalculateTree({data_stash, main_id=null, is_vertical=tru
   function calculateTreePositions(datum, rt, is_ancestry) {
     const hierarchyGetter = rt === "children" ? hierarchyGetterChildren : hierarchyGetterParents,
       d3_tree = d3.tree().nodeSize([node_separation, level_separation]).separation(separation),
-      root = d3.hierarchy(datum, hierarchyGetter);
+      root = d3.hierarchy(datum, hierarchyGetter).sort(function(a, b) {
+      return new Date(a.data.data.birthday) - new Date(b.data.data.birthday);
+    });
     d3_tree(root);
     return root.descendants()
 
