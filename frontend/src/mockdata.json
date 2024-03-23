@@ -1,0 +1,918 @@
+[
+  {
+    "rels": {
+      "spouses": [
+        "65fe22017b538b51c82c8dc1"
+      ],
+      "children": [
+        "65fe22174a4a799149c0ce2e",
+        "65fe2228135e2657554e7876"
+      ],
+      "father": "65efad931bad1a894e4f859b",
+      "mother": "65efadb337c6eda3494f3a0f"
+    },
+    "data": {
+      "firstName": "Vu",
+      "lastName": "Dinoh",
+      "birthday": "05/15/1988",
+      "gender": "M",
+      "link": "https://www.facebook.com/profile.php?id=10737614"
+    },
+    "createdAt": "2024-03-11T03:34:58.547Z",
+    "updatedAt": "2024-03-23T00:53:29.938Z",
+    "id": "65ee7be2cc357863520a2ba7"
+  },
+  {
+    "rels": {
+      "children": [
+        "65ee7be2cc357863520a2ba7",
+        "65efad9c2a37f9be3b80992e",
+        "65fe23db62973a7b348faf42",
+        "65fe23e48ad2b4ed0186f092",
+        "65fe23ec9ca6d88f4a487cd3",
+        "65fe23f703c32137238c083e"
+      ],
+      "spouses": [
+        "65efadb337c6eda3494f3a0f"
+      ],
+      "father": "65fe2547f7ed2c3ce91eb74f",
+      "mother": "65fe2586187ce6aae700e4c8"
+    },
+    "data": {
+      "firstName": "Vinh",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-12T01:19:19.165Z",
+    "updatedAt": "2024-03-23T00:42:46.601Z",
+    "id": "65efad931bad1a894e4f859b"
+  },
+  {
+    "rels": {
+      "father": "65efad931bad1a894e4f859b",
+      "mother": "65efadb337c6eda3494f3a0f",
+      "spouses": [
+        "65fe24db1cf00c84422edf11"
+      ],
+      "children": [
+        "65fe25302287e8b871761289"
+      ]
+    },
+    "data": {
+      "firstName": "Trang",
+      "lastName": "Dinh",
+      "birthday": "04/10/1993",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-12T01:19:28.802Z",
+    "updatedAt": "2024-03-23T00:59:47.964Z",
+    "id": "65efad9c2a37f9be3b80992e"
+  },
+  {
+    "rels": {
+      "spouses": [
+        "65efad931bad1a894e4f859b"
+      ],
+      "children": [
+        "65efad9c2a37f9be3b80992e",
+        "65ee7be2cc357863520a2ba7",
+        "65fe23db62973a7b348faf42",
+        "65fe23e48ad2b4ed0186f092",
+        "65fe23ec9ca6d88f4a487cd3",
+        "65fe23f703c32137238c083e"
+      ],
+      "father": "65fe27574c5cf177a3fad219",
+      "mother": "65fe276b187ce6aae700e501"
+    },
+    "data": {
+      "firstName": "Vinh",
+      "lastName": "Tran",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-12T01:19:47.147Z",
+    "updatedAt": "2024-03-23T00:50:51.578Z",
+    "id": "65efadb337c6eda3494f3a0f"
+  },
+  {
+    "rels": {
+      "spouses": [
+        "65ee7be2cc357863520a2ba7"
+      ],
+      "children": [
+        "65fe22174a4a799149c0ce2e",
+        "65fe2228135e2657554e7876"
+      ],
+      "mother": "65fe2427fb7da65088c9b4d3",
+      "father": "65fe2432187ce6aae700e479"
+    },
+    "data": {
+      "firstName": "Monica",
+      "lastName": "Seth",
+      "birthday": "10/14/1988",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:27:54.049Z",
+    "updatedAt": "2024-03-23T02:06:02.989Z",
+    "id": "65fe22017b538b51c82c8dc1"
+  },
+  {
+    "rels": {
+      "father": "65ee7be2cc357863520a2ba7",
+      "mother": "65fe22017b538b51c82c8dc1",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Andi",
+      "lastName": "Love",
+      "birthday": "06/16/2021",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:28:11.233Z",
+    "updatedAt": "2024-03-23T02:09:16.503Z",
+    "id": "65fe22174a4a799149c0ce2e"
+  },
+  {
+    "rels": {
+      "father": "65ee7be2cc357863520a2ba7",
+      "mother": "65fe22017b538b51c82c8dc1",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Noah",
+      "lastName": "Dinh",
+      "birthday": "04/06/2019",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:28:30.090Z",
+    "updatedAt": "2024-03-23T02:09:08.576Z",
+    "id": "65fe2228135e2657554e7876"
+  },
+  {
+    "rels": {
+      "father": "65efad931bad1a894e4f859b",
+      "mother": "65efadb337c6eda3494f3a0f",
+      "spouses": [
+        "65fe24ea2c1ede5212867af2"
+      ],
+      "children": [
+        "65fe2504a5a8b96c1695b473",
+        "65fe250c172547d1e45ffe57"
+      ]
+    },
+    "data": {
+      "firstName": "Son",
+      "lastName": "Dinh",
+      "birthday": "08/14/1983",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:35:43.060Z",
+    "updatedAt": "2024-03-23T00:59:07.997Z",
+    "id": "65fe23db62973a7b348faf42"
+  },
+  {
+    "rels": {
+      "father": "65efad931bad1a894e4f859b",
+      "mother": "65efadb337c6eda3494f3a0f",
+      "spouses": [
+        "65fe24f7d84a8d556c3d3241"
+      ],
+      "children": []
+    },
+    "data": {
+      "firstName": "Hung",
+      "lastName": "Dinh",
+      "birthday": "08/15/1985",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:35:52.087Z",
+    "updatedAt": "2024-03-23T00:59:19.061Z",
+    "id": "65fe23e48ad2b4ed0186f092"
+  },
+  {
+    "rels": {
+      "father": "65efad931bad1a894e4f859b",
+      "mother": "65efadb337c6eda3494f3a0f",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Tu",
+      "lastName": "Dinh",
+      "birthday": "12/10/1990",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:36:00.365Z",
+    "updatedAt": "2024-03-23T00:59:29.562Z",
+    "id": "65fe23ec9ca6d88f4a487cd3"
+  },
+  {
+    "rels": {
+      "father": "65efad931bad1a894e4f859b",
+      "mother": "65efadb337c6eda3494f3a0f",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "David",
+      "lastName": "Dinh",
+      "birthday": "10/05/1998",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:36:10.966Z",
+    "updatedAt": "2024-03-23T00:59:39.038Z",
+    "id": "65fe23f703c32137238c083e"
+  },
+  {
+    "rels": {
+      "children": [
+        "65fe22017b538b51c82c8dc1",
+        "65fe2441ae3a17dc46ba988d",
+        "65fe244a94839668bd54eaa8"
+      ],
+      "spouses": [
+        "65fe2432187ce6aae700e479"
+      ]
+    },
+    "data": {
+      "firstName": "Kimtho",
+      "lastName": "Siev",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:36:59.520Z",
+    "updatedAt": "2024-03-23T00:37:34.971Z",
+    "id": "65fe2427fb7da65088c9b4d3"
+  },
+  {
+    "rels": {
+      "spouses": [
+        "65fe2427fb7da65088c9b4d3"
+      ],
+      "children": [
+        "65fe22017b538b51c82c8dc1",
+        "65fe2441ae3a17dc46ba988d",
+        "65fe244a94839668bd54eaa8"
+      ]
+    },
+    "data": {
+      "firstName": "Kevin",
+      "lastName": "Seth",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:37:06.503Z",
+    "updatedAt": "2024-03-23T00:37:34.881Z",
+    "id": "65fe2432187ce6aae700e479"
+  },
+  {
+    "rels": {
+      "father": "65fe2432187ce6aae700e479",
+      "mother": "65fe2427fb7da65088c9b4d3",
+      "spouses": [
+        "65fe2493b5b57604e2c719b9"
+      ],
+      "children": [
+        "65fe24a6e42f92d4b1cae5f4"
+      ]
+    },
+    "data": {
+      "firstName": "Makara",
+      "lastName": "Seth",
+      "birthday": "01/29/1978",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:37:26.434Z",
+    "updatedAt": "2024-03-23T02:06:16.556Z",
+    "id": "65fe2441ae3a17dc46ba988d"
+  },
+  {
+    "rels": {
+      "father": "65fe2432187ce6aae700e479",
+      "mother": "65fe2427fb7da65088c9b4d3",
+      "spouses": [
+        "65fe2466211ed0f1888c197e"
+      ],
+      "children": [
+        "65fe24709d14b0a638460b8e",
+        "65fe24798500f75594641e00"
+      ]
+    },
+    "data": {
+      "firstName": "Vantana",
+      "lastName": "Seth",
+      "birthday": "04/27/1981",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:37:34.779Z",
+    "updatedAt": "2024-03-23T02:06:30.263Z",
+    "id": "65fe244a94839668bd54eaa8"
+  },
+  {
+    "rels": {
+      "spouses": [
+        "65fe244a94839668bd54eaa8"
+      ],
+      "children": [
+        "65fe24709d14b0a638460b8e",
+        "65fe24798500f75594641e00"
+      ]
+    },
+    "data": {
+      "firstName": "Aimee",
+      "lastName": "Seth",
+      "birthday": "06/03/1981",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:38:02.319Z",
+    "updatedAt": "2024-03-23T02:06:53.555Z",
+    "id": "65fe2466211ed0f1888c197e"
+  },
+  {
+    "rels": {
+      "father": "65fe244a94839668bd54eaa8",
+      "mother": "65fe2466211ed0f1888c197e",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Jaxon",
+      "lastName": "Seth",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:38:11.965Z",
+    "updatedAt": "2024-03-23T00:38:11.965Z",
+    "id": "65fe24709d14b0a638460b8e"
+  },
+  {
+    "rels": {
+      "father": "65fe244a94839668bd54eaa8",
+      "mother": "65fe2466211ed0f1888c197e",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Ethan",
+      "lastName": "Seth",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:38:21.839Z",
+    "updatedAt": "2024-03-23T00:38:21.839Z",
+    "id": "65fe24798500f75594641e00"
+  },
+  {
+    "rels": {
+      "spouses": [
+        "65fe2441ae3a17dc46ba988d"
+      ],
+      "children": [
+        "65fe24a6e42f92d4b1cae5f4"
+      ]
+    },
+    "data": {
+      "firstName": "Michelle",
+      "lastName": "Seth",
+      "birthday": "11/20/1978",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:38:55.242Z",
+    "updatedAt": "2024-03-23T02:06:42.572Z",
+    "id": "65fe2493b5b57604e2c719b9"
+  },
+  {
+    "rels": {
+      "father": "65fe2441ae3a17dc46ba988d",
+      "mother": "65fe2493b5b57604e2c719b9",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Liv",
+      "lastName": "Seth",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:39:05.681Z",
+    "updatedAt": "2024-03-23T00:39:05.681Z",
+    "id": "65fe24a6e42f92d4b1cae5f4"
+  },
+  {
+    "rels": {
+      "spouses": [
+        "65efad9c2a37f9be3b80992e"
+      ],
+      "children": [
+        "65fe25302287e8b871761289"
+      ]
+    },
+    "data": {
+      "firstName": "Minh",
+      "lastName": "Nguyen",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:40:00.848Z",
+    "updatedAt": "2024-03-23T00:41:25.119Z",
+    "id": "65fe24db1cf00c84422edf11"
+  },
+  {
+    "rels": {
+      "spouses": [
+        "65fe23db62973a7b348faf42"
+      ],
+      "children": [
+        "65fe2504a5a8b96c1695b473",
+        "65fe250c172547d1e45ffe57"
+      ]
+    },
+    "data": {
+      "firstName": "Van",
+      "lastName": "Hoang",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:40:13.613Z",
+    "updatedAt": "2024-03-23T00:40:49.063Z",
+    "id": "65fe24ea2c1ede5212867af2"
+  },
+  {
+    "rels": {
+      "spouses": [
+        "65fe23e48ad2b4ed0186f092"
+      ],
+      "children": []
+    },
+    "data": {
+      "firstName": "Amy",
+      "lastName": "Le",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:40:26.713Z",
+    "updatedAt": "2024-03-23T00:40:26.713Z",
+    "id": "65fe24f7d84a8d556c3d3241"
+  },
+  {
+    "rels": {
+      "father": "65fe23db62973a7b348faf42",
+      "mother": "65fe24ea2c1ede5212867af2",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Jason",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:40:39.769Z",
+    "updatedAt": "2024-03-23T00:40:39.769Z",
+    "id": "65fe2504a5a8b96c1695b473"
+  },
+  {
+    "rels": {
+      "father": "65fe23db62973a7b348faf42",
+      "mother": "65fe24ea2c1ede5212867af2",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Julie",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:40:48.884Z",
+    "updatedAt": "2024-03-23T00:40:48.884Z",
+    "id": "65fe250c172547d1e45ffe57"
+  },
+  {
+    "rels": {
+      "father": "65fe24db1cf00c84422edf11",
+      "mother": "65efad9c2a37f9be3b80992e",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Zion",
+      "lastName": "Nguyen",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:41:25.013Z",
+    "updatedAt": "2024-03-23T00:41:25.013Z",
+    "id": "65fe25302287e8b871761289"
+  },
+  {
+    "rels": {
+      "children": [
+        "65efad931bad1a894e4f859b",
+        "65fe258f3d9dde8e7d8bc2e1",
+        "65fe25b45eb6fab7cb9bf1af",
+        "65fe25c79532d4ee78155a7a",
+        "65fe25d3246eb67244e2da7a",
+        "65fe25decafab0a4d579b3a2",
+        "65fe25e7bf62360132652f9b",
+        "65fe25f166c2409a3d151144"
+      ],
+      "spouses": [
+        "65fe2586187ce6aae700e4c8"
+      ]
+    },
+    "data": {
+      "firstName": "Quang",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:41:46.731Z",
+    "updatedAt": "2024-03-23T00:44:38.302Z",
+    "id": "65fe2547f7ed2c3ce91eb74f"
+  },
+  {
+    "rels": {
+      "spouses": [
+        "65fe2547f7ed2c3ce91eb74f"
+      ],
+      "children": [
+        "65efad931bad1a894e4f859b",
+        "65fe258f3d9dde8e7d8bc2e1",
+        "65fe25b45eb6fab7cb9bf1af",
+        "65fe25c79532d4ee78155a7a",
+        "65fe25d3246eb67244e2da7a",
+        "65fe25decafab0a4d579b3a2",
+        "65fe25e7bf62360132652f9b",
+        "65fe25f166c2409a3d151144"
+      ]
+    },
+    "data": {
+      "firstName": "Hue",
+      "lastName": "Nguyen",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:42:46.420Z",
+    "updatedAt": "2024-03-23T00:44:38.386Z",
+    "id": "65fe2586187ce6aae700e4c8"
+  },
+  {
+    "rels": {
+      "father": "65fe2547f7ed2c3ce91eb74f",
+      "mother": "65fe2586187ce6aae700e4c8",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Hanh",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:42:59.743Z",
+    "updatedAt": "2024-03-23T00:42:59.743Z",
+    "id": "65fe258f3d9dde8e7d8bc2e1"
+  },
+  {
+    "rels": {
+      "father": "65fe2547f7ed2c3ce91eb74f",
+      "mother": "65fe2586187ce6aae700e4c8",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Hung Gia",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:43:41.098Z",
+    "updatedAt": "2024-03-23T00:43:41.098Z",
+    "id": "65fe25b45eb6fab7cb9bf1af"
+  },
+  {
+    "rels": {
+      "father": "65fe2547f7ed2c3ce91eb74f",
+      "mother": "65fe2586187ce6aae700e4c8",
+      "spouses": [
+        "65fe26eadbec746316587820"
+      ],
+      "children": [
+        "65fe26f3c6a0302e3a1c8710",
+        "65fe26fcadf9dd77fdce9764"
+      ]
+    },
+    "data": {
+      "firstName": "Liem",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:43:58.013Z",
+    "updatedAt": "2024-03-23T00:49:07.838Z",
+    "id": "65fe25c79532d4ee78155a7a"
+  },
+  {
+    "rels": {
+      "father": "65fe2547f7ed2c3ce91eb74f",
+      "mother": "65fe2586187ce6aae700e4c8",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Oanh",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:44:08.577Z",
+    "updatedAt": "2024-03-23T00:44:08.577Z",
+    "id": "65fe25d3246eb67244e2da7a"
+  },
+  {
+    "rels": {
+      "father": "65fe2547f7ed2c3ce91eb74f",
+      "mother": "65fe2586187ce6aae700e4c8",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Dao",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:44:19.367Z",
+    "updatedAt": "2024-03-23T00:44:19.367Z",
+    "id": "65fe25decafab0a4d579b3a2"
+  },
+  {
+    "rels": {
+      "father": "65fe2547f7ed2c3ce91eb74f",
+      "mother": "65fe2586187ce6aae700e4c8",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Tram",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:44:29.042Z",
+    "updatedAt": "2024-03-23T00:44:29.042Z",
+    "id": "65fe25e7bf62360132652f9b"
+  },
+  {
+    "rels": {
+      "father": "65fe2547f7ed2c3ce91eb74f",
+      "mother": "65fe2586187ce6aae700e4c8",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Truc",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:44:38.206Z",
+    "updatedAt": "2024-03-23T00:44:38.206Z",
+    "id": "65fe25f166c2409a3d151144"
+  },
+  {
+    "rels": {
+      "spouses": [
+        "65fe25c79532d4ee78155a7a"
+      ],
+      "children": [
+        "65fe26f3c6a0302e3a1c8710",
+        "65fe26fcadf9dd77fdce9764"
+      ]
+    },
+    "data": {
+      "firstName": "Sue",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:48:47.539Z",
+    "updatedAt": "2024-03-23T00:49:07.932Z",
+    "id": "65fe26eadbec746316587820"
+  },
+  {
+    "rels": {
+      "father": "65fe25c79532d4ee78155a7a",
+      "mother": "65fe26eadbec746316587820",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Duy Phuong",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:48:56.462Z",
+    "updatedAt": "2024-03-23T00:48:56.462Z",
+    "id": "65fe26f3c6a0302e3a1c8710"
+  },
+  {
+    "rels": {
+      "father": "65fe25c79532d4ee78155a7a",
+      "mother": "65fe26eadbec746316587820",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Tino",
+      "lastName": "Dinh",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:49:07.733Z",
+    "updatedAt": "2024-03-23T00:49:07.733Z",
+    "id": "65fe26fcadf9dd77fdce9764"
+  },
+  {
+    "rels": {
+      "children": [
+        "65efadb337c6eda3494f3a0f",
+        "65fe27734c5a89196803c981",
+        "65fe27858afaf260b7115bb3",
+        "65fe27a36261bb94d546aaae",
+        "65fe27b0ae413e97383fb2a2",
+        "65fe27bb7869fb11bb5dece4"
+      ],
+      "spouses": [
+        "65fe276b187ce6aae700e501"
+      ]
+    },
+    "data": {
+      "firstName": "Duong",
+      "lastName": "Tran",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:50:40.235Z",
+    "updatedAt": "2024-03-23T00:52:16.945Z",
+    "id": "65fe27574c5cf177a3fad219"
+  },
+  {
+    "rels": {
+      "spouses": [
+        "65fe27574c5cf177a3fad219"
+      ],
+      "children": [
+        "65efadb337c6eda3494f3a0f",
+        "65fe27734c5a89196803c981",
+        "65fe27858afaf260b7115bb3",
+        "65fe27a36261bb94d546aaae",
+        "65fe27b0ae413e97383fb2a2",
+        "65fe27bb7869fb11bb5dece4"
+      ]
+    },
+    "data": {
+      "firstName": "Dung Thi",
+      "lastName": "Ngo",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:50:51.395Z",
+    "updatedAt": "2024-03-23T00:52:17.031Z",
+    "id": "65fe276b187ce6aae700e501"
+  },
+  {
+    "rels": {
+      "father": "65fe27574c5cf177a3fad219",
+      "mother": "65fe276b187ce6aae700e501",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Khoa (Bich)",
+      "lastName": "Tran",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:51:10.317Z",
+    "updatedAt": "2024-03-23T00:51:10.317Z",
+    "id": "65fe27734c5a89196803c981"
+  },
+  {
+    "rels": {
+      "father": "65fe27574c5cf177a3fad219",
+      "mother": "65fe276b187ce6aae700e501",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Quang",
+      "lastName": "Tran",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:51:22.457Z",
+    "updatedAt": "2024-03-23T00:51:22.457Z",
+    "id": "65fe27858afaf260b7115bb3"
+  },
+  {
+    "rels": {
+      "father": "65fe27574c5cf177a3fad219",
+      "mother": "65fe276b187ce6aae700e501",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Binh",
+      "lastName": "Tran",
+      "birthday": "",
+      "gender": "M",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:51:55.000Z",
+    "updatedAt": "2024-03-23T00:51:55.000Z",
+    "id": "65fe27a36261bb94d546aaae"
+  },
+  {
+    "rels": {
+      "father": "65fe27574c5cf177a3fad219",
+      "mother": "65fe276b187ce6aae700e501",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Hien",
+      "lastName": "Tran",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:52:07.372Z",
+    "updatedAt": "2024-03-23T00:52:07.372Z",
+    "id": "65fe27b0ae413e97383fb2a2"
+  },
+  {
+    "rels": {
+      "father": "65fe27574c5cf177a3fad219",
+      "mother": "65fe276b187ce6aae700e501",
+      "spouses": [],
+      "children": []
+    },
+    "data": {
+      "firstName": "Hong",
+      "lastName": "Tran",
+      "birthday": "",
+      "gender": "F",
+      "link": ""
+    },
+    "createdAt": "2024-03-23T00:52:16.852Z",
+    "updatedAt": "2024-03-23T00:52:16.852Z",
+    "id": "65fe27bb7869fb11bb5dece4"
+  }
+]
