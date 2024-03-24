@@ -124,11 +124,13 @@ function App() {
         fetch(`${process.env.REACT_APP_API}/member/add-new`, requestOptions)
             .then(res => res.json())
             .then((r) => {
-                console.log('RRR', r);
+                console.log('new-member-added: ', r);
             }).catch((e) => {
-            console.log('caughtttt', e);
+            console.log('new-member-failed-to-add: ', e);
         }).finally(() => setLoading(!loading));
     }
+
+    if (loading) return;
 
   return (
       <>
