@@ -6,7 +6,7 @@ import Card from './view/elements/Card';
 import {AddRelative} from "./AddRelativeTree/AddRelativeTree.AddRelative";
 import Form from "./view/elements/Form";
 import {generateUUID} from "./handlers/general";
-import data from './mockdata.json';
+// import data from './mockdata.json';
 
 function App() {
   const container = useRef();
@@ -14,15 +14,15 @@ function App() {
   const [members, setMembers] = useState([]);
 
     const getMembers = () => {
-        setMembers(data);
-        setLoading(false);
+        // setMembers(data);
+        // setLoading(false);
         // Simple GET request with a JSON body using fetch
-        // fetch(`${process.env.REACT_APP_API}/member`)
-        //     .then(res => res.json())
-        //     .then((r) => {
-        //         setMembers(r);
-        //         setLoading(false);
-        //     });
+        fetch(`${process.env.REACT_APP_API}/member`)
+            .then(res => res.json())
+            .then((r) => {
+                setMembers(r);
+                setLoading(false);
+            });
     }
 
     useEffect(() => {
