@@ -6,6 +6,7 @@ import Card from './view/elements/Card';
 import {AddRelative} from "./AddRelativeTree/AddRelativeTree.AddRelative";
 import Form from "./view/elements/Form";
 import {generateUUID} from "./handlers/general";
+import RefreshIcon from '@mui/icons-material/Refresh';
 // import data from './mockdata.json';
 
 function App() {
@@ -135,7 +136,22 @@ function App() {
               !members || !members.length ?
                   (<>
                       <button onClick={() => addNewUser()}>add first user</button>
-                  </>) : <div className="f3" id="FamilyChart" ref={container}></div>
+                  </>) : (
+                      <>
+                          <div className="f3" id="FamilyChart" ref={container} />
+                          <RefreshIcon
+                              style={{
+                                  position: 'absolute',
+                                  right: 0,
+                                  bottom: 0,
+                                  color: 'white',
+                                  margin: '12px',
+                              }}
+                              fontSize={'large'}
+                              onClick={() => window.location.reload()}
+                          />
+                      </>
+                  )
           }
       </>
   );
