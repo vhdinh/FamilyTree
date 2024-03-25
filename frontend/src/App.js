@@ -7,12 +7,15 @@ import {AddRelative} from "./AddRelativeTree/AddRelativeTree.AddRelative";
 import Form from "./view/elements/Form";
 import {generateUUID} from "./handlers/general";
 import RefreshIcon from '@mui/icons-material/Refresh';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 // import data from './mockdata.json';
 
 function App() {
   const container = useRef();
   const [loading, setLoading] = useState(true);
   const [members, setMembers] = useState([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
     const getMembers = () => {
         // setMembers(data);
@@ -61,7 +64,8 @@ function App() {
     const store = createStore({
           data: members,
           node_separation: 250,
-          level_separation: 150
+          level_separation: 150,
+          isAdmin: isAdmin,
         }),
         view = d3AnimationView({
           store,
@@ -79,7 +83,7 @@ function App() {
           cardEditForm,
           addRelative: AddRelative({store, cont, card_dim, cardEditForm, labels: {mother: 'Add mother'}}),
           mini_tree: true,
-          link_break: false
+          link_break: false,
         });
 
       function cardEditForm(props) {
@@ -97,7 +101,7 @@ function App() {
     store.setOnUpdate((props) => view.update(props || {}));
     store.update.tree({ initial: true });
 
-  }, [container, loading])
+  }, [container, loading, isAdmin])
 
     const addNewUser = () => {
         // handle submit
@@ -141,17 +145,35 @@ function App() {
                   </>) : (
                       <>
                           <div className="f3" id="FamilyChart" ref={container} />
-                          <RefreshIcon
+                          <div
                               style={{
                                   position: 'absolute',
-                                  right: 0,
-                                  bottom: 0,
+                                  top: 0,
+                                  left: 0,
                                   color: 'white',
                                   margin: '12px',
-                              }}
-                              fontSize={'large'}
-                              onClick={() => window.location.reload()}
-                          />
+                                  gap: '18px',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                              }}>
+                              <RefreshIcon
+                                  fontSize={'large'}
+                                  onClick={() => window.location.reload()}
+                              />
+                              {
+                                  isAdmin ? (
+                                      <LockOpenIcon
+                                          fontSize={'large'}
+                                          onClick={() => setIsAdmin(false)}
+                                      />
+                                  ) : (
+                                      <LockIcon
+                                          fontSize={'large'}
+                                          onClick={() => setIsAdmin(true)}
+                                      />
+                                  )
+                              }
+                          </div>
                       </>
                   )
           }

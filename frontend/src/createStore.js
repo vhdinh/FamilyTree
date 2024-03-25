@@ -10,14 +10,16 @@ export default function createStore(initial_state) {
         if (onUpdate) onUpdate(props)
       },
       mainId: main_id => state.main_id = main_id,
-      data: data => state.data = data
+      data: data => state.data = data,
+      isAdmin: admin => state.isAdmin = admin,
     },
     getData = () => state.data,
     getTree = () => state.tree,
+    isAdmin = () => state.isAdmin,
     setOnUpdate = (f) => onUpdate = f,
     methods = {};
 
-  return {state, update, getData, getTree, setOnUpdate, methods}
+  return {state, update, getData, isAdmin, getTree, setOnUpdate, methods}
 
 
   function calcTree() {

@@ -38,8 +38,8 @@ export function Card(props) {
           <g clip-path="url(#card_clip)">
             ${card_body()}
             ${card_image()}
-            ${edit_icon()}
-            ${add_icon()}
+            ${store.isAdmin() && edit_icon()}
+            ${store.isAdmin() && add_icon()}
           </g>
           ${props.link_break ? link_break_icon() : ''}
         </g>

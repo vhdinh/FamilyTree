@@ -9,7 +9,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Debug from "./Debug";
 
-
 const router = createBrowserRouter([
     {
         path: "/",
