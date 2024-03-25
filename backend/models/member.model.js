@@ -15,7 +15,8 @@ const memberSchema = new Schema({
         lastName: String,
         birthday: String,
         gender: String,
-        link: String
+        link: String,
+        avatar: String,
     }
 }, {
     timestamps: true,
