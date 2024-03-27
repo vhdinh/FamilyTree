@@ -11,11 +11,10 @@ import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 // import data from './mockdata.json';
 
-function App() {
+function App(props) {
   const container = useRef();
   const [loading, setLoading] = useState(true);
   const [members, setMembers] = useState([]);
-  const [isAdmin, setIsAdmin] = useState(false);
 
     const getMembers = () => {
         // setMembers(data);
@@ -65,7 +64,7 @@ function App() {
           data: members,
           node_separation: 250,
           level_separation: 150,
-          isAdmin: isAdmin,
+          isAdmin: props.isAdmin,
         }),
         view = d3AnimationView({
           store,
@@ -101,7 +100,7 @@ function App() {
     store.setOnUpdate((props) => view.update(props || {}));
     store.update.tree({ initial: true });
 
-  }, [container, loading, isAdmin])
+  }, [container, loading])
 
     const addNewUser = () => {
         // handle submit
@@ -160,19 +159,6 @@ function App() {
                                   fontSize={'large'}
                                   onClick={() => window.location.reload()}
                               />
-                              {
-                                  isAdmin ? (
-                                      <LockOpenIcon
-                                          fontSize={'large'}
-                                          onClick={() => setIsAdmin(false)}
-                                      />
-                                  ) : (
-                                      <LockIcon
-                                          fontSize={'large'}
-                                          onClick={() => setIsAdmin(true)}
-                                      />
-                                  )
-                              }
                           </div>
                       </>
                   )
