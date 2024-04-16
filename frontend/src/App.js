@@ -133,7 +133,29 @@ function App(props) {
         }).finally(() => setLoading(!loading));
     }
 
-    if (loading) return;
+    if (loading) return (
+        <div
+            style={{
+                position: 'absolute',
+                width: '100%',
+                height: '100%',
+                background: '#3b5560',
+                color: 'white',
+            }}
+        >
+            <div
+            style={{
+                position: 'absolute',
+                top: '50%',
+                width: '100%',
+                textAlign: 'center',
+            }}
+            >
+                Spinning up server, may take up to 30 secs...
+
+            </div>
+        </div>
+    );
 
   return (
       <>
