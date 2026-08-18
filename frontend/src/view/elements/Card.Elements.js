@@ -50,6 +50,17 @@ export function PencilIcon({d,card_dim,x,y}) {
   `)})
 }
 
+export function ChainIcon({d,card_dim,x,y}) {
+  return ({template: (`
+    <g transform="translate(${x || card_dim.w-66},${y || card_dim.h-20})scale(.5)" style="cursor: pointer" class="card_find_relation chain_icon">
+      <circle fill="rgba(0,0,0,0)" r="17" cx="10" cy="10" />
+      <path fill="currentColor" transform="translate(-2, -2)"
+         d="M3.9,12c0-1.71,1.39-3.1,3.1-3.1h4V7H7c-2.76,0-5,2.24-5,5s2.24,5,5,5h4v-1.9H7C5.29,15.1,3.9,13.71,3.9,12z
+          M8,13h8v-2H8V13z M17,7h-4v1.9h4c1.71,0,3.1,1.39,3.1,3.1s-1.39,3.1-3.1,3.1h-4V17h4c2.76,0,5-2.24,5-5S19.76,7,17,7z"/>
+    </g>
+  `)})
+}
+
 export function HideIcon({d,card_dim}) {
   return ({template: (`
     <g transform="translate(${card_dim.w-50},${card_dim.h-20})scale(.035)" style="cursor: pointer" class="card_hide_rels hide_rels_icon">

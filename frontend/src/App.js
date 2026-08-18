@@ -6,12 +6,14 @@ import Card from './view/elements/Card';
 import { AddRelative } from "./AddRelativeTree/AddRelativeTree.AddRelative";
 import Form from "./view/elements/Form";
 import { generateUUID } from "./handlers/general";
+import { findRelationPath, chooseHighlightRoot } from "./CalculateTree/findRelationPath";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import SettingsIcon from '@mui/icons-material/Settings';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
+import LinkIcon from '@mui/icons-material/Link';
 // import data from './mockdata.json';
 
 function App(props) {
@@ -23,9 +25,17 @@ function App(props) {
     const [showAdminPin, setShowAdminPin] = useState(false);
     const [pinInput, setPinInput] = useState("");
     const [pinError, setPinError] = useState(false);
+    const [findRelationOpen, setFindRelationOpen] = useState(false);
+    const [findRelationFrom, setFindRelationFrom] = useState(null);
+    const [relationQuery, setRelationQuery] = useState("");
+    const [relationResult, setRelationResult] = useState(null);
     const searchContainerRef = useRef(null);
     const storeRef = useRef(null);
+    const viewRef = useRef(null);
     const pinInputRef = useRef(null);
+    const relationSearchRef = useRef(null);
+
+    const formatMemberName = (m) => `${m?.data?.firstName || ''} ${m?.data?.middleName || ''} ${m?.data?.lastName || ''}`.replace(/\s+/g, ' ').trim();
 
     const getMembers = () => {
         // setMembers(data);
@@ -88,6 +98,70 @@ function App(props) {
         }
     };
 
+    useEffect(() => {
+        if (!findRelationOpen) return;
+        relationSearchRef.current?.focus();
+        function handleEscape(event) {
+            if (event.key === "Escape") closeFindRelation();
+        }
+        document.addEventListener("keydown", handleEscape);
+        return () => {
+            document.removeEventListener("keydown", handleEscape);
+        };
+    }, [findRelationOpen]);
+
+    const openFindRelation = (datum) => {
+        setFindRelationFrom({ id: datum.id, name: formatMemberName(datum) });
+        setRelationQuery("");
+        setFindRelationOpen(true);
+    };
+
+    const closeFindRelation = () => {
+        setFindRelationOpen(false);
+        setFindRelationFrom(null);
+        setRelationQuery("");
+    };
+
+    const clearRelationHighlight = () => {
+        viewRef.current?.clearHighlight();
+        setRelationResult(null);
+    };
+
+    const handleRelationPick = (member) => {
+        const store = storeRef.current, view = viewRef.current;
+        if (!store || !view || !findRelationFrom) return;
+        const data_stash = store.getData();
+        const path = findRelationPath(data_stash, findRelationFrom.id, member.id);
+        const fromName = findRelationFrom.name;
+
+        closeFindRelation();
+
+        if (!path) {
+            setRelationResult({ status: 'not-found', fromName, toName: formatMemberName(member) });
+            return;
+        }
+
+        const { root, full_coverage } = chooseHighlightRoot(data_stash, path);
+        store.update.mainId(root);
+        store.update.tree({ tree_position: 'fit' });
+        view.highlightPath(path, { dashed: !full_coverage });
+
+        const names = path.map(id => formatMemberName(data_stash.find(x => x.id === id)));
+        setRelationResult({
+            status: full_coverage ? 'found' : 'partial',
+            names,
+            fromName,
+            toName: formatMemberName(member),
+        });
+    };
+
+    const relationFilteredMembers = relationQuery.trim() === "" || !findRelationFrom
+        ? []
+        : members.filter(m => {
+            if (m.id === findRelationFrom.id) return false;
+            return formatMemberName(m).toLowerCase().includes(relationQuery.toLowerCase());
+        });
+
     const cardDisplay = () => {
         const d1 = d => `${d.data['firstName'] || ''} ${d.data['middleName'] || ''} ${d.data['lastName'] || ''}`,
             d2 = d => `${d.data['birthday'] || ''}`,
@@ -113,13 +187,13 @@ function App(props) {
     useEffect(() => {
         if (!container.current || loading || !members) return;
         const cont = document.querySelector("#FamilyChart");
-        const card_dim = { w: 220, h: 70, text_x: 75, text_y: 15, img_w: 60, img_h: 60, img_x: 5, img_y: 5 };
+        const card_dim = { w: 280, h: 70, text_x: 75, text_y: 15, img_w: 60, img_h: 60, img_x: 5, img_y: 5 };
         const card_display = cardDisplay(),
             card_edit = cardEditParams();
 
         const store = createStore({
             data: members,
-            node_separation: 250,
+            node_separation: 310,
             level_separation: 150,
             isAdmin: props.isAdmin,
         }),
@@ -138,6 +212,8 @@ function App(props) {
                 ],
                 cardEditForm,
                 addRelative: AddRelative({ store, cont, card_dim, cardEditForm, labels: { mother: 'Add mother' } }),
+                findRelation: ({ d }) => openFindRelation(d.data),
+                onNavigate: () => clearRelationHighlight(),
                 mini_tree: true,
                 link_break: false,
             });
@@ -156,6 +232,7 @@ function App(props) {
         view.setCard(UserCard);
         store.setOnUpdate((props) => view.update(props || {}));
         storeRef.current = store;
+        viewRef.current = view;
         store.update.tree({ initial: true });
 
     }, [container, loading])
@@ -375,6 +452,80 @@ function App(props) {
                                             </div>
                                         </form>
                                     </div>
+                                </div>
+                            )}
+
+                            {findRelationOpen && findRelationFrom && (
+                                <div className="relation-search-overlay" onClick={closeFindRelation}>
+                                    <div className="relation-search-modal" onClick={(e) => e.stopPropagation()}>
+                                        <div className="relation-search-header">
+                                            <LinkIcon fontSize="small" />
+                                            <h3 className="relation-search-title">Find Relation</h3>
+                                            <button
+                                                type="button"
+                                                className="relation-search-close"
+                                                onClick={closeFindRelation}
+                                                title="Close"
+                                                aria-label="Close"
+                                            >
+                                                <ClearIcon fontSize="small" />
+                                            </button>
+                                        </div>
+                                        <p className="relation-search-subtitle">
+                                            Show how <strong>{findRelationFrom.name}</strong> is related to...
+                                        </p>
+                                        <input
+                                            ref={relationSearchRef}
+                                            type="text"
+                                            className="relation-search-input"
+                                            placeholder="Search for a family member..."
+                                            value={relationQuery}
+                                            onChange={(e) => setRelationQuery(e.target.value)}
+                                        />
+                                        {relationQuery.trim() !== "" && (
+                                            <ul className="relation-search-results">
+                                                {relationFilteredMembers.length > 0 ? (
+                                                    relationFilteredMembers.map((member) => (
+                                                        <li
+                                                            key={member.id}
+                                                            className="relation-search-item"
+                                                            onClick={() => handleRelationPick(member)}
+                                                        >
+                                                            {formatMemberName(member)}
+                                                        </li>
+                                                    ))
+                                                ) : (
+                                                    <li className="relation-search-no-results">No family members found</li>
+                                                )}
+                                            </ul>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+
+                            {relationResult && (
+                                <div className="relation-result-banner">
+                                    <LinkIcon fontSize="small" className="relation-result-icon" />
+                                    <div className="relation-result-text">
+                                        {relationResult.status === 'not-found' ? (
+                                            <span>No relation found between <strong>{relationResult.fromName}</strong> and <strong>{relationResult.toName}</strong>.</span>
+                                        ) : (
+                                            <>
+                                                <span className="relation-result-chain">{relationResult.names.join(' → ')}</span>
+                                                {relationResult.status === 'partial' && (
+                                                    <span className="relation-result-caveat">Dashed line: some connecting relatives aren't shown in this view.</span>
+                                                )}
+                                            </>
+                                        )}
+                                    </div>
+                                    <button
+                                        className="relation-result-close"
+                                        onClick={clearRelationHighlight}
+                                        title="Clear highlight"
+                                        aria-label="Clear highlight"
+                                    >
+                                        <ClearIcon fontSize="small" />
+                                    </button>
                                 </div>
                             )}
                         </>

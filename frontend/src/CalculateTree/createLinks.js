@@ -20,7 +20,8 @@ export function createLinks({d, tree, is_vertical}) {
           _p = {x: d.x, y: d.y}
         return Link(_d, _p)
       },
-      curve: true, id: linkId(d, d.parents[0], d.parents[1]), depth: d.depth+1, is_ancestry: true
+      curve: true, id: linkId(d, d.parents[0], d.parents[1]), depth: d.depth+1, is_ancestry: true,
+      edges: [[d.data.id, d.parents[0].data.id], [d.data.id, d.parents[1].data.id]]
     })
   }
 
@@ -35,7 +36,8 @@ export function createLinks({d, tree, is_vertical}) {
       links.push({
         d: Link(child, {x: sx, y: d.y}),
         _d: () => Link({x: sx, y: d.y}, {x: _or(child, 'x'), y: _or(child, 'y')}),
-        curve: true, id: linkId(child, d, other_parent), depth: d.depth+1
+        curve: true, id: linkId(child, d, other_parent), depth: d.depth+1,
+        edges: [[child.data.id, d.data.id], [child.data.id, other_parent.data.id]]
       })
     })
   }
@@ -51,7 +53,8 @@ export function createLinks({d, tree, is_vertical}) {
           d.is_ancestry ? [_or(d, 'x')-.0001, _or(d, 'y')] : [d.x, d.y], // add -.0001 to line to have some length if d.x === spouse.x
           d.is_ancestry ? [_or(spouse, 'x', true), _or(spouse, 'y')] : [d.x-.0001, d.y]
         ],
-        curve: false, id: [d.data.id, spouse.data.id].join(", "), depth: d.depth, spouse: true, is_ancestry: spouse.is_ancestry
+        curve: false, id: [d.data.id, spouse.data.id].join(", "), depth: d.depth, spouse: true, is_ancestry: spouse.is_ancestry,
+        edges: [[d.data.id, spouse.data.id]]
       })
     })
   }

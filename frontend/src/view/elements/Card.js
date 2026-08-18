@@ -5,7 +5,8 @@ import {
   CardImage,
   LinkBreakIconWrapper,
   MiniTree, PencilIcon,
-  PlusIcon
+  PlusIcon,
+  ChainIcon
 } from "./Card.Elements.js"
 import {cardChangeMain, cardEdit, cardShowHideRels} from "../../handlers/cardMethods.js"
 import {isAllRelativeDisplayed} from "../../handlers/general.js"
@@ -28,6 +29,7 @@ export function Card(props) {
       card_image = () => !d.data.to_add ? CardImage({d, image: d.data.data.avatar || null, card_dim, maleIcon: null, femaleIcon: null}).template : '',
       edit_icon = () => !d.data.to_add && props.cardEditForm ? PencilIcon({card_dim, x: card_dim.w-46, y: card_dim.h-20}).template : '',
       add_icon = () => !d.data.to_add && props.cardEditForm ? PlusIcon({card_dim, x: card_dim.w-26, y: card_dim.h-20}).template : '',
+      find_relation_icon = () => !d.data.to_add && props.findRelation ? ChainIcon({card_dim, x: card_dim.text_x, y: card_dim.h-20}).template : '',
       link_break_icon = () => LinkBreakIconWrapper({d,card_dim})
 
     el.innerHTML = (`
@@ -40,6 +42,7 @@ export function Card(props) {
             ${card_image()}
             ${store.isAdmin() && edit_icon()}
             ${store.isAdmin() && add_icon()}
+            ${find_relation_icon()}
           </g>
           ${props.link_break ? link_break_icon() : ''}
         </g>
@@ -54,7 +57,7 @@ export function Card(props) {
     let p;
 
     p = el.querySelector(".card")
-    if (p) p.addEventListener("click", (e) => {e.stopPropagation();cardChangeMain(store, {card:el, d})})
+    if (p) p.addEventListener("click", (e) => {e.stopPropagation();cardChangeMain(store, {card:el, d});props.onNavigate?.()})
 
     p = el.querySelector(".card_edit")
     if (p && props.cardEditForm) p.addEventListener("click", (e) => {e.stopPropagation();cardEdit(store, {card:el, d, cardEditForm: props.cardEditForm, status: 'editing'})})
@@ -65,8 +68,11 @@ export function Card(props) {
     p = el.querySelector(".card_add_relative")
     if (p) p.addEventListener("click", (e) => {e.stopPropagation();props.addRelative({d})})
 
+    p = el.querySelector(".card_find_relation")
+    if (p && props.findRelation) p.addEventListener("click", (e) => {e.stopPropagation();props.findRelation({d})})
+
     p = el.querySelector(".card_family_tree")
-    if (p) p.addEventListener("click", (e) => {e.stopPropagation();cardChangeMain(store, {card:el, d})})
+    if (p) p.addEventListener("click", (e) => {e.stopPropagation();cardChangeMain(store, {card:el, d});props.onNavigate?.()})
 
     p = el.querySelector(".card_break_link")
     if (p) p.addEventListener("click", (e) => {e.stopPropagation();cardShowHideRels(store, {card:el, d})})
@@ -108,7 +114,7 @@ export function Card(props) {
     const default_props = {
       mini_tree: true,
       link_break: true,
-      card_dim: {w:220,h:70,text_x:75,text_y:15,img_w:60,img_h:60,img_x:5,img_y:5}
+      card_dim: {w:280,h:70,text_x:75,text_y:15,img_w:60,img_h:60,img_x:5,img_y:5}
     }
     if (!props) props = {}
     for (const k in default_props) {

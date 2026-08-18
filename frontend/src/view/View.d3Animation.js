@@ -10,7 +10,33 @@ export default function d3AnimationView({store, cont, Card}) {
   const svg = createSvg();
   setupSvg(svg, store.state.zoom_polite);
 
-  return {update: updateView, svg, setCard: card => Card = card}
+  return {update: updateView, svg, setCard: card => Card = card, highlightPath, clearHighlight}
+
+  function highlightPath(path_ids, {dashed = false} = {}) {
+    const view = d3.select(svg).select(".view")
+    view.select(".links_view").selectAll("path.link")
+      .classed("path-highlight", d => isOnPath(d))
+      .classed("path-highlight-dashed", d => dashed && isOnPath(d))
+    view.select(".cards_view").selectAll("g.card_cont")
+      .classed("path-highlight-card", d => path_ids.includes(d.data.id))
+    view.classed("relation-highlight-active", true)
+
+    function isOnPath(d) {
+      if (!d.edges) return false
+      for (let i = 0; i < path_ids.length - 1; i++) {
+        const a = path_ids[i], b = path_ids[i + 1]
+        if (d.edges.some(([e1, e2]) => (e1 === a && e2 === b) || (e1 === b && e2 === a))) return true
+      }
+      return false
+    }
+  }
+
+  function clearHighlight() {
+    const view = d3.select(svg).select(".view")
+    view.select(".links_view").selectAll("path.link").classed("path-highlight", false).classed("path-highlight-dashed", false)
+    view.select(".cards_view").selectAll("g.card_cont").classed("path-highlight-card", false)
+    view.classed("relation-highlight-active", false)
+  }
 
   function updateView(props) {
     if (!props) props = {}
