@@ -9,6 +9,7 @@ import {generateUUID} from "./handlers/general";
 import RefreshIcon from '@mui/icons-material/Refresh';
 import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
+import SettingsIcon from '@mui/icons-material/Settings';
 // import data from './mockdata.json';
 
 function App(props) {
@@ -180,6 +181,22 @@ function App(props) {
                               <RefreshIcon
                                   fontSize={'large'}
                                   onClick={() => window.location.reload()}
+                              />
+                          </div>
+                          <div
+                              style={{
+                                  position: 'absolute',
+                                  top: 0,
+                                  right: 0,
+                                  color: 'white',
+                                  margin: '12px',
+                                  gap: '18px',
+                                  display: 'flex',
+                                  flexDirection: 'column',
+                              }}>
+                                <SettingsIcon
+                                  fontSize={'large'}
+                                  onClick={() => window.location.href = (`http://localhost:3000/admin`)}
                               />
                           </div>
                       </>

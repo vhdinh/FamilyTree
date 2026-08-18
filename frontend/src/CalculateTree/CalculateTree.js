@@ -5,7 +5,9 @@ import {createNewPerson} from "../handlers/newPerson.js"
 export default function CalculateTree({data_stash, main_id=null, is_vertical=true, node_separation=250, level_separation=150}) {
   data_stash = createRelsToAdd(data_stash)
   sortChildrenWithSpouses(data_stash)
-  const main = main_id !== null ? data_stash.find(d => d.id === main_id) : data_stash[0],
+  const main = main_id !== null
+    ? data_stash.find(d => d.id === main_id)
+    : (data_stash.find(d => d.default === true || d.data?.default === true) || data_stash[0]),
     tree_children = calculateTreePositions(main, 'children', false),
     tree_parents = calculateTreePositions(main, 'parents', true)
 

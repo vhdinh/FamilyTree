@@ -40,6 +40,10 @@
   stroke: #fff;
   cursor: pointer;
 }
+.f3 .card .card-body a {
+  fill: #3b5560;
+}
+
 .f3 g.card_add text {
   fill: #fff;
 }
