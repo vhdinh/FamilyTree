@@ -18,7 +18,8 @@ const memberSchema = new Schema({
         gender: String,
         link: String,
         avatar: String,
-    }
+    },
+    default: { type: Boolean, default: false },
 }, {
     timestamps: true,
 });

@@ -1,17 +1,23 @@
 import './Form.css'
 
 export default function Form({datum, rel_datum, store, rel_type, card_edit, postSubmit, card_display, edit: {el, open, close}}) {
+  let is_default = !!datum.default
+
   setupFromHtml();
   open();
 
   function setupFromHtml() {
     const is_delete_visible = !(datum.to_add || !!rel_datum)
+    const is_default_visible = !(datum.to_add || !!rel_datum)
 
     el.innerHTML = (`
       <div class="modal-content member-form">
         <div class="member-form-header">
           <h2 class="member-form-title">${rel_datum ? 'Add family member' : 'Edit family member'}</h2>
           <div class="member-form-header-actions">
+            <button type="button" class="member-form-icon-btn member-form-default ${is_default ? 'is-default' : ''}" title="Set as default starting member" aria-label="Set as default starting member" aria-pressed="${is_default}" style="display: ${is_default_visible ? 'flex' : 'none'}">
+              ${starIcon()}
+            </button>
             <button type="button" class="member-form-icon-btn member-form-delete" title="Delete" aria-label="Delete" style="display: ${is_delete_visible ? 'flex' : 'none'}">
               ${trashIcon()}
             </button>
@@ -21,6 +27,12 @@ export default function Form({datum, rel_datum, store, rel_type, card_edit, post
           </div>
         </div>
         <form class="member-form-body">
+          ${is_default_visible ? `
+            <div class="default-hint ${is_default ? 'is-default' : ''}">
+              ${starIcon()}
+              <span>${is_default ? 'This is the default starting member' : 'Not the default starting member'}</span>
+            </div>
+          ` : ''}
           <div class="gender-toggle">
             <label class="gender-option gender-option-m">
               <input type="radio" name="gender" value="M" ${datum.data.gender === 'M' ? 'checked' : ''}>
@@ -42,6 +54,27 @@ export default function Form({datum, rel_datum, store, rel_type, card_edit, post
     el.querySelector("form").addEventListener('submit', submitFormChanges)
     el.querySelector(".member-form-delete").addEventListener('click', handleDeleteClick)
     el.querySelector(".member-form-close").addEventListener('click', () => close())
+    const default_btn = el.querySelector(".member-form-default")
+    if (default_btn) default_btn.addEventListener('click', () => toggleDefault(default_btn))
+  }
+
+  function toggleDefault(btn) {
+    is_default = !is_default
+    btn.classList.toggle('is-default', is_default)
+    btn.setAttribute('aria-pressed', String(is_default))
+    const hint = el.querySelector('.default-hint')
+    if (hint) {
+      hint.classList.toggle('is-default', is_default)
+      hint.querySelector('span').textContent = is_default ? 'This is the default starting member' : 'Not the default starting member'
+    }
+  }
+
+  function starIcon() {
+    return (`
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.2 1 5.9-5.2-2.8-5.2 2.8 1-5.9-4.3-4.2 5.9-.8L12 3.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" fill="currentColor" fill-opacity="0"/>
+      </svg>
+    `)
   }
 
   let delete_armed = false, delete_timeout = null
@@ -120,6 +153,7 @@ export default function Form({datum, rel_datum, store, rel_type, card_edit, post
     e.preventDefault()
     const form_data = new FormData(e.target)
     form_data.forEach((v, k) => datum.data[k] = v)
+    datum.default = is_default
     close()
     postSubmit()
   }

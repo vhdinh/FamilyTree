@@ -11,6 +11,8 @@
   --ft-danger-soft: #fdecea;
   --ft-male: #6fb3d9;
   --ft-female: #e79bb5;
+  --ft-default: #d99a1f;
+  --ft-default-soft: #fdf3e0;
 
   width: 92%;
   max-width: 400px;
@@ -100,8 +102,22 @@
   color: var(--ft-text);
 }
 
+.member-form-default:hover {
+  background: var(--ft-default-soft);
+  color: var(--ft-default);
+}
+
+.member-form-default.is-default {
+  color: var(--ft-default);
+}
+
+.member-form-default.is-default svg path {
+  fill-opacity: 1;
+}
+
 .member-form-delete:active,
-.member-form-close:active {
+.member-form-close:active,
+.member-form-default:active {
   transform: scale(0.92);
 }
 
@@ -110,6 +126,36 @@
   flex-direction: column;
   gap: 10px;
   padding: 8px 16px 16px;
+}
+
+.default-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--ft-bg-soft);
+  color: var(--ft-text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.default-hint svg {
+  flex-shrink: 0;
+  color: var(--ft-text-muted);
+}
+
+.default-hint.is-default {
+  background: var(--ft-default-soft);
+  color: var(--ft-default);
+}
+
+.default-hint.is-default svg {
+  color: var(--ft-default);
+}
+
+.default-hint.is-default svg path {
+  fill-opacity: 1;
 }
 
 /* Gender segmented toggle */

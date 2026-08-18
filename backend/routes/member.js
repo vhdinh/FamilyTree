@@ -8,11 +8,25 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).send(err));
 });
 
-router.route('/edit/:id').post((req, res) => {
+router.route('/edit/:id').post(async (req, res) => {
     console.log(`route: /edit/${req.body.id}/ `, req.body);
-    Member.findByIdAndUpdate(req.body.id, {data: req.body.data})
-        .then((r) => res.status(200).send(r))
-        .catch(err => res.status(400).send(err));
+    try {
+        if (req.body.default === true) {
+            // Unset the currently default member before assigning the new one
+            await Member.updateMany(
+                { _id: { $ne: req.body.id }, default: true },
+                { $set: { default: false } }
+            );
+        }
+        const r = await Member.findByIdAndUpdate(
+            req.body.id,
+            { data: req.body.data, default: !!req.body.default },
+            { new: true }
+        );
+        res.status(200).send(r);
+    } catch (err) {
+        res.status(400).send(err);
+    }
 });
 
 router.route('/add-new').post(async (req, res) => {
