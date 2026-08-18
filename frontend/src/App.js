@@ -16,12 +16,15 @@ import ClearIcon from '@mui/icons-material/Clear';
 import LinkIcon from '@mui/icons-material/Link';
 // import data from './mockdata.json';
 
-function App(props) {
+const ADMIN_SESSION_KEY = 'ft_admin_session';
+
+function App() {
     const container = useRef();
     const [loading, setLoading] = useState(true);
     const [members, setMembers] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(() => sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true');
     const [showAdminPin, setShowAdminPin] = useState(false);
     const [pinInput, setPinInput] = useState("");
     const [pinError, setPinError] = useState(false);
@@ -88,15 +91,37 @@ function App(props) {
         setPinError(false);
     };
 
+    const enableAdmin = () => {
+        sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+        setIsAdmin(true);
+    };
+
+    const disableAdmin = () => {
+        sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        setIsAdmin(false);
+    };
+
+    const handleSettingsClick = () => {
+        if (isAdmin) disableAdmin();
+        else setShowAdminPin(true);
+    };
+
     const handlePinSubmit = (e) => {
         e.preventDefault();
         if (pinInput === process.env.REACT_APP_ADMIN_PIN) {
-            window.location.href = `${process.env.REACT_APP_UI_URL}/admin`;
+            enableAdmin();
+            closeAdminPin();
         } else {
             setPinError(true);
             setPinInput("");
         }
     };
+
+    useEffect(() => {
+        if (!storeRef.current) return;
+        storeRef.current.update.isAdmin(isAdmin);
+        storeRef.current.update.tree({ tree_position: 'inherit' });
+    }, [isAdmin]);
 
     useEffect(() => {
         if (!findRelationOpen) return;
@@ -195,7 +220,7 @@ function App(props) {
             data: members,
             node_separation: 310,
             level_separation: 150,
-            isAdmin: props.isAdmin,
+            isAdmin,
         }),
             view = d3AnimationView({
                 store,
@@ -410,11 +435,11 @@ function App(props) {
 
                                 {/* Right: Settings Button */}
                                 <button
-                                    className="navbar-icon-btn"
-                                    onClick={() => setShowAdminPin(true)}
-                                    title="Admin Settings"
+                                    className={`navbar-icon-btn ${isAdmin ? 'navbar-icon-btn-active' : ''}`}
+                                    onClick={handleSettingsClick}
+                                    title={isAdmin ? "Admin mode on (click to turn off)" : "Admin Settings"}
                                 >
-                                    <SettingsIcon fontSize="large" />
+                                    {isAdmin ? <LockOpenIcon fontSize="large" /> : <SettingsIcon fontSize="large" />}
                                 </button>
                             </div>
 

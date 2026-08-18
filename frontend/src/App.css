@@ -172,6 +172,16 @@
   transform: rotate(180deg);
 }
 
+.navbar-icon-btn-active {
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.15);
+}
+
+.navbar-icon-btn-active:hover {
+  color: #ffd166;
+  background: rgba(255, 209, 102, 0.25);
+}
+
 .search-container {
   position: relative;
   width: 100%;

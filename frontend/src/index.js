@@ -12,11 +12,7 @@ import Debug from "./Debug";
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <App isAdmin={false} />,
-    },
-    {
-        path: "/admin",
-        element: <App isAdmin={true} />,
+        element: <App />,
     },
     {
         path: "/debug",
