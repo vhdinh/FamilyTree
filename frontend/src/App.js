@@ -20,8 +20,12 @@ function App(props) {
     const [members, setMembers] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
+    const [showAdminPin, setShowAdminPin] = useState(false);
+    const [pinInput, setPinInput] = useState("");
+    const [pinError, setPinError] = useState(false);
     const searchContainerRef = useRef(null);
     const storeRef = useRef(null);
+    const pinInputRef = useRef(null);
 
     const getMembers = () => {
         // setMembers(data);
@@ -50,6 +54,39 @@ function App(props) {
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, []);
+
+    useEffect(() => {
+        if (!showAdminPin) return;
+        pinInputRef.current?.focus();
+        function handleEscape(event) {
+            if (event.key === "Escape") closeAdminPin();
+        }
+        document.addEventListener("keydown", handleEscape);
+        return () => {
+            document.removeEventListener("keydown", handleEscape);
+        };
+    }, [showAdminPin]);
+
+    const closeAdminPin = () => {
+        setShowAdminPin(false);
+        setPinInput("");
+        setPinError(false);
+    };
+
+    const handlePinChange = (e) => {
+        setPinInput(e.target.value.replace(/\D/g, "").slice(0, 4));
+        setPinError(false);
+    };
+
+    const handlePinSubmit = (e) => {
+        e.preventDefault();
+        if (pinInput === process.env.REACT_APP_ADMIN_PIN) {
+            window.location.href = `${process.env.REACT_APP_UI_URL}/admin`;
+        } else {
+            setPinError(true);
+            setPinInput("");
+        }
+    };
 
     const cardDisplay = () => {
         const d1 = d => `${d.data['firstName'] || ''} ${d.data['middleName'] || ''} ${d.data['lastName'] || ''}`,
@@ -257,7 +294,7 @@ function App(props) {
                                                     >
                                                         <div style={{ position: 'relative', width: '36px', height: '36px', marginRight: '12px', flexShrink: 0 }}>
                                                             {/* Placeholder fallback in the background */}
-                                                            <div 
+                                                            <div
                                                                 className={`search-item-avatar placeholder-${member.data?.gender || 'M'}`}
                                                                 style={{ margin: 0, position: 'absolute', top: 0, left: 0 }}
                                                             >
@@ -297,7 +334,7 @@ function App(props) {
                                 {/* Right: Settings Button */}
                                 <button
                                     className="navbar-icon-btn"
-                                    onClick={() => window.location.href = `http://localhost:3000/admin`}
+                                    onClick={() => setShowAdminPin(true)}
                                     title="Admin Settings"
                                 >
                                     <SettingsIcon fontSize="large" />
@@ -305,6 +342,41 @@ function App(props) {
                             </div>
 
                             <div className="f3" id="FamilyChart" ref={container} />
+
+                            {showAdminPin && (
+                                <div className="admin-pin-overlay" onClick={closeAdminPin}>
+                                    <div className="admin-pin-modal" onClick={(e) => e.stopPropagation()}>
+                                        <div className="admin-pin-header">
+                                            <LockIcon fontSize="small" />
+                                            <h3 className="admin-pin-title">Admin Access</h3>
+                                        </div>
+                                        <p className="admin-pin-subtitle">Enter PIN to continue</p>
+                                        <form onSubmit={handlePinSubmit}>
+                                            <input
+                                                ref={pinInputRef}
+                                                type="password"
+                                                inputMode="numeric"
+                                                pattern="[0-9]*"
+                                                maxLength={4}
+                                                autoComplete="off"
+                                                className={`admin-pin-input ${pinError ? 'admin-pin-input-error' : ''}`}
+                                                value={pinInput}
+                                                onChange={handlePinChange}
+                                                placeholder="••••"
+                                            />
+                                            {pinError && <div className="admin-pin-error">Incorrect PIN, try again</div>}
+                                            <div className="admin-pin-actions">
+                                                <button type="button" className="admin-pin-cancel" onClick={closeAdminPin}>
+                                                    Cancel
+                                                </button>
+                                                <button type="submit" className="admin-pin-submit" disabled={pinInput.length !== 4}>
+                                                    Unlock
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            )}
                         </>
                     )
             }

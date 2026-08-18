@@ -1,0 +1,327 @@
+/* Modern, responsive styling for the member edit/add modal (#form_modal) */
+
+#form_modal {
+  --ft-primary: #3b5560;
+  --ft-primary-dark: #2c4149;
+  --ft-border: #e2e6e8;
+  --ft-text: #263238;
+  --ft-text-muted: #7c8b91;
+  --ft-bg-soft: #f4f6f7;
+  --ft-danger: #e2453c;
+  --ft-danger-soft: #fdecea;
+  --ft-male: #6fb3d9;
+  --ft-female: #e79bb5;
+
+  width: 92%;
+  max-width: 400px;
+  max-height: 90vh;
+  border-radius: 18px;
+  padding: 0;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25), 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+#form_modal .modal-content.member-form {
+  padding: 0;
+}
+
+.member-form-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 16px 4px;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}
+
+.member-form-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ft-text);
+  letter-spacing: -0.01em;
+}
+
+.member-form-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.member-form-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ft-text-muted);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease, width 0.2s ease, border-radius 0.2s ease;
+  padding: 0;
+}
+
+.member-form-delete.confirm-armed {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 16px;
+  background: var(--ft-danger);
+  color: #fff;
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.member-form-delete.confirm-armed svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.member-form-delete.confirm-armed:hover {
+  background: #c62828;
+  color: #fff;
+}
+
+.member-form-delete:hover {
+  background: var(--ft-danger-soft);
+  color: var(--ft-danger);
+}
+
+.member-form-close:hover {
+  background: var(--ft-bg-soft);
+  color: var(--ft-text);
+}
+
+.member-form-delete:active,
+.member-form-close:active {
+  transform: scale(0.92);
+}
+
+.member-form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px 16px 16px;
+}
+
+/* Gender segmented toggle */
+.gender-toggle {
+  display: flex;
+  gap: 4px;
+  padding: 3px;
+  background: var(--ft-bg-soft);
+  border-radius: 12px;
+}
+
+.gender-option {
+  position: relative;
+  flex: 1;
+  display: block;
+  cursor: pointer;
+}
+
+#form_modal .gender-option input[type="radio"] {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* Neutralize Materialize's default radio+span styling (padding-left, inline-block, pseudo circles) */
+#form_modal .gender-option input[type="radio"] + span,
+#form_modal .gender-option input[type="radio"]:checked + span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 7px 12px;
+  border-radius: 9px;
+  height: auto;
+  line-height: normal;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ft-text-muted);
+  transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#form_modal .gender-option input[type="radio"] + span::before,
+#form_modal .gender-option input[type="radio"] + span::after {
+  content: none;
+  display: none;
+}
+
+.gender-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.gender-option-m .gender-dot { background: var(--ft-male); }
+.gender-option-f .gender-dot { background: var(--ft-female); }
+
+#form_modal .gender-option input[type="radio"]:checked + span {
+  background: #fff;
+  color: var(--ft-text);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gender-option input:focus-visible + span {
+  outline: 2px solid var(--ft-primary);
+  outline-offset: 2px;
+}
+
+/* Fields */
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.form-field label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ft-text-muted);
+}
+
+#form_modal .form-field input,
+#form_modal .form-field textarea,
+#form_modal .form-field select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1.5px solid var(--ft-border);
+  border-radius: 10px;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  color: var(--ft-text);
+  background-color: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  height: auto;
+  margin: 0;
+}
+
+#form_modal .form-field textarea {
+  min-height: 56px;
+  resize: vertical;
+}
+
+#form_modal .form-field select {
+  display: block;
+  appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237c8b91' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 34px;
+}
+
+#form_modal .form-field input:focus,
+#form_modal .form-field textarea:focus,
+#form_modal .form-field select:focus {
+  outline: none;
+  border-color: var(--ft-primary);
+  box-shadow: 0 0 0 3px rgba(59, 85, 96, 0.14);
+}
+
+#form_modal .form-field input::placeholder,
+#form_modal .form-field textarea::placeholder {
+  color: #b5bfc2;
+}
+
+/* Submit */
+.member-form-submit {
+  margin-top: 4px;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 20px;
+  background: var(--ft-primary);
+  color: #fff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 16px rgba(59, 85, 96, 0.25);
+}
+
+.member-form-submit:hover {
+  background: var(--ft-primary-dark);
+  box-shadow: 0 8px 20px rgba(59, 85, 96, 0.3);
+}
+
+.member-form-submit:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 10px rgba(59, 85, 96, 0.25);
+}
+
+/* Scrollbar styling within modal */
+#form_modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+#form_modal::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px;
+}
+
+/* Mobile tuning */
+@media only screen and (max-width: 600px) {
+  #form_modal {
+    width: 94%;
+    max-width: 94%;
+    max-height: 92vh;
+    border-radius: 16px;
+  }
+
+  .member-form-header {
+    padding: 14px 14px 2px;
+  }
+
+  .member-form-title {
+    font-size: 1rem;
+  }
+
+  .member-form-body {
+    padding: 6px 14px 14px;
+    gap: 8px;
+  }
+
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    font-size: 16px; /* prevents iOS auto-zoom on focus */
+    padding: 9px 12px;
+  }
+
+  .member-form-submit {
+    padding: 12px 20px;
+    font-size: 0.95rem;
+  }
+}
+
+@media only screen and (min-width: 601px) and (max-width: 900px) {
+  #form_modal {
+    width: 85%;
+  }
+}
