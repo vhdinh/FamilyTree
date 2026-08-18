@@ -1,18 +1,19 @@
 const mongoose = require('mongoose');
-const {ObjectId} = require("mongodb");
+const { ObjectId } = require("mongodb");
 
 const Schema = mongoose.Schema;
 
 const memberSchema = new Schema({
     rels: {
-        spouses: [{ type : ObjectId, ref: 'Member' }],
-        father: {type : ObjectId, ref: 'Member' },
-        mother: {type : ObjectId, ref: 'Member' },
-        children:  [{ type : ObjectId, ref: 'Member' }],
+        spouses: [{ type: ObjectId, ref: 'Member' }],
+        father: { type: ObjectId, ref: 'Member' },
+        mother: { type: ObjectId, ref: 'Member' },
+        children: [{ type: ObjectId, ref: 'Member' }],
     },
     data: {
         firstName: String,
         lastName: String,
+        middleName: String,
         birthday: String,
         gender: String,
         link: String,
