@@ -97,6 +97,45 @@
   color: var(--ft-danger);
 }
 
+.member-form-delete.is-deleting {
+  width: auto;
+  padding: 0 12px;
+  border-radius: 16px;
+  background: var(--ft-danger-soft);
+  color: var(--ft-danger);
+  font-size: 0.76rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: default;
+  opacity: 0.85;
+}
+
+.member-form-delete.is-deleting svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.member-form-spinner {
+  animation: member-form-spin 0.8s linear infinite;
+}
+
+@keyframes member-form-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.member-form-delete-error {
+  margin: 0 16px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--ft-danger-soft);
+  color: var(--ft-danger);
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
 .member-form-close:hover {
   background: var(--ft-bg-soft);
   color: var(--ft-text);

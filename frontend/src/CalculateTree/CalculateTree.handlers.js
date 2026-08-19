@@ -1,6 +1,7 @@
 export function sortChildrenWithSpouses(data) {
   data.forEach(datum => {
     if (!datum.rels.children) return
+    const side = datum.data.gender === "M" ? -1 : 1
     datum.rels.children.sort((a, b) => {
       const a_d = data.find(d => d.id === a),
         b_d = data.find(d => d.id === b),
@@ -9,10 +10,18 @@ export function sortChildrenWithSpouses(data) {
         a_i = datum.rels.spouses.indexOf(a_p2.id),
         b_i = datum.rels.spouses.indexOf(b_p2.id)
 
-      if (datum.data.gender === "M") return a_i - b_i
-      else return b_i - a_i
+      return spouseSideOrder(a_i, side) - spouseSideOrder(b_i, side)
     })
   })
+}
+
+// Mirrors the alternating left/right spouse placement in CalculateTree.js's setupSpouses,
+// so children end up ordered under the correct (possibly non-adjacent) spouse.
+function spouseSideOrder(i, side) {
+  if (i < 0) return 0
+  const dist = Math.floor(i/2)+1,
+    dir = i%2 === 0 ? -side : side
+  return dist*dir
 }
 
 function otherParent(d, p1, data) {

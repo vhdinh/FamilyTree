@@ -107,10 +107,10 @@ export default function View(tree, {store, data_stash, cont, datum, card_dim, ca
         rel_type = card.getAttribute("data-rel_type"),
         rel_datum = datum,
         new_datum = createNewPersonWithGenderFromRel({rel_datum, rel_type}),
-        postSubmit = () => {
+        postSubmit = async () => {
           view.remove();
           addNewPerson({data_stash, datum: new_datum})
-          handleRelsOfNewDatum({datum: new_datum, data_stash, rel_datum, rel_type, store})
+          await handleRelsOfNewDatum({datum: new_datum, data_stash, rel_datum, rel_type, store})
           store.update.tree();
         }
       cardEditForm({datum: new_datum, rel_datum, rel_type, postSubmit, store})

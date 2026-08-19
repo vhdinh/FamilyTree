@@ -250,7 +250,7 @@ function App() {
         function cardEditForm(props) {
             const postSubmit = props.postSubmit;
             props.postSubmit = (ps_props) => {
-                postSubmit(ps_props)
+                return postSubmit(ps_props)
             }
             const el = document.querySelector('#form_modal'),
                 modal = M.Modal.getInstance(el),

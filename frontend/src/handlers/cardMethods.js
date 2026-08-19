@@ -12,11 +12,14 @@ export function cardChangeMain(store, {card, d}) {
 export function cardEdit(store, {card, d, cardEditForm, status}) {
 
   const datum = d.data,
-    postSubmit = (props) => {
+    postSubmit = async (props) => {
     if (datum.to_add) moveToAddToAdded(datum, store.getData())
       if (props && props.delete) {
+        const result = await deletePerson(datum, store.getData())
+        if (!result.success) return result
         if (datum.main) store.update.mainId(null)
-        deletePerson(datum, store.getData())
+        store.update.tree()
+        return result
       }
         if (!props) {
             // Simple POST request with a JSON body using fetch

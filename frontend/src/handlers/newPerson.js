@@ -1,9 +1,9 @@
 import {generateUUID, removeToAdd} from "./general.js";
 
 export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum, store}) {
-  if (rel_type === "daughter" || rel_type === "son") addChild(datum)
-  else if (rel_type === "father" || rel_type === "mother") addParent(datum)
-  else if (rel_type === "spouse") addSpouse(datum)
+  if (rel_type === "daughter" || rel_type === "son") return addChild(datum)
+  else if (rel_type === "father" || rel_type === "mother") return addParent(datum)
+  else if (rel_type === "spouse") return addSpouse(datum)
 
   async function addChild(datum) {
     if (datum.data.other_parent) {
@@ -41,7 +41,7 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum, st
     return datum
 
     async function addChildToSpouseAndParentToChild(spouse_id) {
-      if (spouse_id === "_new") spouse_id = await addOtherParent().id;
+      if (spouse_id === "_new") spouse_id = (await addOtherParent()).id;
 
       const spouse = data_stash.find(d => d.id === spouse_id)
       datum.rels[spouse.data.gender === 'M' ? 'father' : 'mother'] = spouse.id

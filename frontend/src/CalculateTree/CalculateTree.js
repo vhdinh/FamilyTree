@@ -26,6 +26,10 @@ export default function CalculateTree({data_stash, main_id=null, is_vertical=tru
     const hierarchyGetter = rt === "children" ? hierarchyGetterChildren : hierarchyGetterParents,
       d3_tree = d3.tree().nodeSize([node_separation, level_separation]).separation(separation),
       root = d3.hierarchy(datum, hierarchyGetter).sort(function(a, b) {
+      if (!is_ancestry && a.parent === b.parent && !sameBothParents(a, b)) {
+        const diff = spouseGroupOrder(a, b)
+        if (diff !== 0) return diff
+      }
       return new Date(a.data.data.birthday) - new Date(b.data.data.birthday);
     });
     d3_tree(root);
@@ -61,6 +65,28 @@ export default function CalculateTree({data_stash, main_id=null, is_vertical=tru
     function offsetOnPartners(a,b) {
       return (Math.max((a.data.rels?.spouses || []).length, (b.data.rels?.spouses || []).length))*.5+.5
     }
+
+    // Groups siblings by which of the shared parent's spouses is their other parent,
+    // ordered to match the alternating left/right spouse placement in setupSpouses().
+    function spouseGroupOrder(a, b) {
+      const parent = a.parent.data
+      if (!parent.rels?.spouses || parent.rels.spouses.length < 2) return 0
+      const side = parent.data.gender === "M" ? -1 : 1,
+        a_i = parent.rels.spouses.indexOf(otherParentId(a.data, parent)),
+        b_i = parent.rels.spouses.indexOf(otherParentId(b.data, parent))
+      return spouseSideOrder(a_i, side) - spouseSideOrder(b_i, side)
+    }
+
+    function otherParentId(child, parent) {
+      return child.rels.father === parent.id ? child.rels.mother : child.rels.father
+    }
+
+    function spouseSideOrder(i, side) {
+      if (i < 0) return 0
+      const dist = Math.floor(i/2)+1,
+        dir = i%2 === 0 ? -side : side
+      return dist*dir
+    }
   }
 
   function levelOutEachSide(parents, children) {
@@ -89,13 +115,18 @@ export default function CalculateTree({data_stash, main_id=null, is_vertical=tru
       const d = tree[i]
       if (!d.is_ancestry && d.data.rels?.spouses && d.data.rels?.spouses.length > 0){
         const side = d.data.data.gender === "M" ? -1 : 1;  // female on right
-        d.x += d.data.rels.spouses?.length/2*node_separation*side;
-        d.data.rels?.spouses.forEach((sp_id, i) => {
+        const spouses = d.data.rels.spouses,
+          n_primary = Math.ceil(spouses.length/2),
+          n_secondary = Math.floor(spouses.length/2)
+        d.x += (n_primary-n_secondary)/2*node_separation*side;
+        spouses.forEach((sp_id, i) => {
           const spouse = {data: data_stash.find(d0 => d0.id === sp_id), added: true}
+          const dist = Math.floor(i/2)+1,
+            dir = i%2 === 0 ? -side : side  // alternate sides: 1st spouse opposite gender side, 2nd spouse same side, 3rd further opposite, etc.
 
-          spouse.x = d.x-(node_separation*(i+1))*side;
+          spouse.x = d.x+(node_separation*dist)*dir;
           spouse.y = d.y
-          spouse.sx = i > 0 ? spouse.x : spouse.x + (node_separation/2)*side
+          spouse.sx = (d.x+spouse.x)/2
           spouse.depth = d.depth;
           spouse.spouse = d;
           if (!d.spouses) d.spouses = []

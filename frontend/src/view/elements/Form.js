@@ -26,6 +26,7 @@ export default function Form({datum, rel_datum, store, rel_type, card_edit, post
             </button>
           </div>
         </div>
+        <div class="member-form-delete-error" style="display: none"></div>
         <form class="member-form-body">
           ${is_default_visible ? `
             <div class="default-hint ${is_default ? 'is-default' : ''}">
@@ -77,22 +78,23 @@ export default function Form({datum, rel_datum, store, rel_type, card_edit, post
     `)
   }
 
-  let delete_armed = false, delete_timeout = null
+  let delete_armed = false, delete_timeout = null, is_deleting = false
 
   function handleDeleteClick(e) {
+    if (is_deleting) return
     const btn = e.currentTarget
     if (!delete_armed) {
       e.preventDefault()
       e.stopPropagation()
       armDelete(btn)
     } else {
-      disarmDelete(btn)
-      deletePerson()
+      confirmDelete(btn)
     }
   }
 
   function armDelete(btn) {
     delete_armed = true
+    hideDeleteError()
     btn.classList.add('confirm-armed')
     btn.innerHTML = `${trashIcon()}<span>Confirm delete</span>`
     delete_timeout = setTimeout(() => disarmDelete(btn), 4000)
@@ -109,6 +111,48 @@ export default function Form({datum, rel_datum, store, rel_type, card_edit, post
     }
   }
 
+  async function confirmDelete(btn) {
+    clearTimeout(delete_timeout)
+    document.removeEventListener('click', handleOutsideClick, true)
+    setDeleting(btn, true)
+
+    // Keep the "Deleting…" state visible for a minimum stretch so it registers
+    // even when the request finishes almost instantly (e.g. on localhost).
+    const MIN_VISIBLE_MS = 500
+    const [result] = await Promise.all([
+      postSubmit({delete: true}),
+      new Promise(resolve => setTimeout(resolve, MIN_VISIBLE_MS)),
+    ])
+
+    if (result && result.success === false) {
+      setDeleting(btn, false)
+      showDeleteError(result.error || "Couldn't delete this family member. Please try again.")
+    } else {
+      close()
+    }
+  }
+
+  function setDeleting(btn, deleting) {
+    is_deleting = deleting
+    delete_armed = false
+    btn.disabled = deleting
+    btn.classList.toggle('is-deleting', deleting)
+    btn.classList.remove('confirm-armed')
+    btn.innerHTML = deleting ? `${spinnerIcon()}<span>Deleting…</span>` : trashIcon()
+  }
+
+  function showDeleteError(message) {
+    const box = el.querySelector('.member-form-delete-error')
+    if (!box) return
+    box.textContent = message
+    box.style.display = 'block'
+  }
+
+  function hideDeleteError() {
+    const box = el.querySelector('.member-form-delete-error')
+    if (box) box.style.display = 'none'
+  }
+
   function handleOutsideClick(e) {
     const btn = el.querySelector(".member-form-delete")
     if (btn && !btn.contains(e.target)) disarmDelete(btn)
@@ -119,6 +163,14 @@ export default function Form({datum, rel_datum, store, rel_type, card_edit, post
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M4 7h16M9.5 7V5a1.5 1.5 0 0 1 1.5-1.5h2A1.5 1.5 0 0 1 14.5 5v2M6.5 7l.75 12.15A2 2 0 0 0 9.24 21h5.52a2 2 0 0 0 1.99-1.85L17.5 7" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
         <path d="M10 11v6M14 11v6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      </svg>
+    `)
+  }
+
+  function spinnerIcon() {
+    return (`
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="member-form-spinner">
+        <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="42 100"/>
       </svg>
     `)
   }
@@ -156,12 +208,6 @@ export default function Form({datum, rel_datum, store, rel_type, card_edit, post
     datum.default = is_default
     close()
     postSubmit()
-  }
-
-  function deletePerson() {
-    close()
-    // TODO: remove person
-    postSubmit({delete: true})
   }
 
   function getEditFields(card_edit) {
