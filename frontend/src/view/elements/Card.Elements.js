@@ -1,16 +1,13 @@
 export function CardBody({d,card_dim,card_display}) {
+  const has_link = card_display[1](d.data) && card_display[2](d.data)
   return {template: (`
     <g class="card-body">
       <rect width="${card_dim.w}" height="${card_dim.h}" class="card-body-rect" />
       <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
         <text clip-path="url(#card_text_clip)">
-          <tspan x="${0}" dy="${14}">${card_display[0](d.data)}</tspan>
-          <tspan x="${0}" dy="${14}" font-size="10">${card_display[1](d.data)}</tspan>
-          <tspan>
-            <a class="link" x="${0}" dy="${14}" href="${card_display[2](d.data)}" font-size="10" target="facebook">${card_display[1](d.data) && card_display[2](d.data) ? "Link" : ""}</a>
-          </tspan>
+          <tspan class="card-name" x="${0}" dy="${15}">${card_display[0](d.data)}</tspan>
+          <tspan class="card-meta" x="${0}" dy="${18}">${card_display[1](d.data)}</tspan>${has_link ? `<a class="card-social-link" href="${card_display[2](d.data)}" target="facebook"><tspan class="card-social-link-glyph" dx="6">&#8599;</tspan></a>` : ''}
         </text>
-<!--        <rect width="${card_dim.w-card_dim.text_x-10}" height="${card_dim.h-20}" style="mask: url(#fade)" class="text-overflow-mask" /> -->
       </g>
     </g>
   `)
@@ -31,7 +28,7 @@ export function CardBodyAddNew({d,card_dim,card_add,label}) {
 
 export function CardBodyOutline({d,card_dim, is_new}) {
   return {template: (`
-    <rect width="${card_dim.w}" height="${card_dim.h}" rx="4" ry="4" class="card-outline ${(d.data.main && !is_new) ? 'card-main-outline' : ''} ${is_new ? 'card-new-outline' : ''}" />
+    <rect width="${card_dim.w}" height="${card_dim.h}" rx="16" ry="16" class="card-outline ${(d.data.main && !is_new) ? 'card-main-outline' : ''} ${is_new ? 'card-new-outline' : ''}" />
   `)
   }
 }
@@ -39,7 +36,7 @@ export function CardBodyOutline({d,card_dim, is_new}) {
 export function PencilIcon({d,card_dim,x,y}) {
   return ({template: (`
     <g transform="translate(${x || card_dim.w-20},${y || card_dim.h-20})scale(.6)" style="cursor: pointer" class="card_edit pencil_icon">
-      <circle fill="rgba(0,0,0,0)" r="17" cx="8.5" cy="8.5" />
+      <circle class="card-icon-btn-bg" r="17" cx="8.5" cy="8.5" />
       <path fill="currentColor" transform="translate(-1.5, -1.5)"
          d="M19.082,2.123L17.749,0.79c-1.052-1.052-2.766-1.054-3.819,0L1.925,12.794c-0.06,0.06-0.104,0.135-0.127,0.216
           l-1.778,6.224c-0.05,0.175-0.001,0.363,0.127,0.491c0.095,0.095,0.223,0.146,0.354,0.146c0.046,0,0.092-0.006,0.137-0.02
@@ -53,7 +50,7 @@ export function PencilIcon({d,card_dim,x,y}) {
 export function ChainIcon({d,card_dim,x,y}) {
   return ({template: (`
     <g transform="translate(${x || card_dim.w-66},${y || card_dim.h-20})scale(.5)" style="cursor: pointer" class="card_find_relation chain_icon">
-      <circle fill="rgba(0,0,0,0)" r="17" cx="10" cy="10" />
+      <circle class="card-icon-btn-bg" r="17" cx="10" cy="10" />
       <path fill="currentColor" transform="translate(-2, -2)"
          d="M3.9,12c0-1.71,1.39-3.1,3.1-3.1h4V7H7c-2.76,0-5,2.24-5,5s2.24,5,5,5h4v-1.9H7C5.29,15.1,3.9,13.71,3.9,12z
           M8,13h8v-2H8V13z M17,7h-4v1.9h4c1.71,0,3.1,1.39,3.1,3.1s-1.39,3.1-3.1,3.1h-4V17h4c2.76,0,5-2.24,5-5S19.76,7,17,7z"/>
@@ -95,7 +92,7 @@ export function PlusIcon({d,card_dim,x,y}) {
   return ({template: (`
     <g class="card_add_relative">
       <g transform="translate(${x || card_dim.w/2},${y || card_dim.h})scale(.13)">
-        <circle r="80" cx="40" cy="40" fill="rgba(0,0,0,0)" />
+        <circle class="card-icon-btn-bg" r="80" cx="40" cy="40" />
         <g transform="translate(-10, -8)">
           <line
             x1="10" x2="90" y1="50" y2="50"
@@ -160,13 +157,16 @@ export function LinkBreakIconWrapper({d,card_dim}) {
 export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
   // update to load image id from google drive
   return ({template: (`
-    <g style="transform: translate(${card_dim.img_x}px,${card_dim.img_y}px);" class="card_image" clip-path="url(#card_image_clip)">
-      ${image 
-        ? `<image href="https://drive.google.com/thumbnail?id=${image}&sz=w1000" height="${card_dim.img_h}" width="${card_dim.img_w}" preserveAspectRatio="xMidYMin slice" referrerpolicy="no-referrer" />`
-        : (d.data.data.gender === "F" && !!femaleIcon) ? femaleIcon({card_dim}) 
-        : (d.data.data.gender === "M" && !!maleIcon) ? maleIcon({card_dim}) 
-        : GenderlessIcon()
-      }      
+    <g style="transform: translate(${card_dim.img_x}px,${card_dim.img_y}px);" class="card_image_wrap">
+      <g clip-path="url(#card_image_clip)">
+        ${image
+          ? `<image href="https://drive.google.com/thumbnail?id=${image}&sz=w1000" height="${card_dim.img_h}" width="${card_dim.img_w}" preserveAspectRatio="xMidYMin slice" referrerpolicy="no-referrer" />`
+          : (d.data.data.gender === "F" && !!femaleIcon) ? femaleIcon({card_dim})
+          : (d.data.data.gender === "M" && !!maleIcon) ? maleIcon({card_dim})
+          : GenderlessIcon()
+        }
+      </g>
+      <circle class="card-avatar-ring" cx="${card_dim.img_w/2}" cy="${card_dim.img_h/2}" r="${Math.min(card_dim.img_w, card_dim.img_h)/2 - 1}" fill="none" />
     </g>
   `)})
 

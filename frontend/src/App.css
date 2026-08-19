@@ -17,22 +17,20 @@
 .f3 svg.main_svg text {
   fill: currentColor;
 }
+/* Card surfaces */
 .f3 rect.card-female,
 .f3 .card-female .card-body-rect,
 .f3 .card-female .text-overflow-mask {
-  fill: lightpink;
+  fill: url(#card_grad_female);
 }
 .f3 rect.card-male,
 .f3 .card-male .card-body-rect,
 .f3 .card-male .text-overflow-mask {
-  fill: lightblue;
+  fill: url(#card_grad_male);
 }
 .f3 .card-genderless .card-body-rect,
 .f3 .card-genderless .text-overflow-mask {
-  fill: lightgray;
-}
-.f3 .card-male a {
-  fill: #3b5560;
+  fill: url(#card_grad_genderless);
 }
 .f3 .card_add .card-body-rect {
   fill: #3b5560;
@@ -40,15 +38,73 @@
   stroke: #fff;
   cursor: pointer;
 }
-.f3 .card .card-body a {
-  fill: #3b5560;
-}
 
 .f3 g.card_add text {
   fill: #fff;
 }
-.f3 .card-main {
-  stroke: #000;
+
+.f3 g.card_cont {
+  cursor: pointer;
+}
+.f3 .card .card-shadow-layer {
+  filter: drop-shadow(0 3px 6px rgba(15, 23, 27, 0.28));
+  transition: filter 0.2s ease;
+}
+.f3 .card:hover .card-shadow-layer {
+  filter: drop-shadow(0 6px 14px rgba(15, 23, 27, 0.38));
+}
+
+/* Text hierarchy */
+.f3 .card-body text {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+.f3 .card-body .card-name {
+  font-size: 14px;
+  font-weight: 700;
+  fill: #223138;
+}
+.f3 .card-body .card-meta {
+  font-size: 11px;
+  font-weight: 500;
+  fill: rgba(34, 49, 56, 0.6);
+}
+.f3 .card-social-link {
+  cursor: pointer;
+}
+.f3 .card-social-link-glyph {
+  font-size: 11px;
+  fill: rgba(34, 49, 56, 0.45);
+  transition: fill 0.2s ease;
+}
+.f3 .card-social-link:hover .card-social-link-glyph {
+  fill: #2c4149;
+}
+
+/* Avatar */
+.f3 .card-avatar-ring {
+  stroke: rgba(255, 255, 255, 0.85);
+  stroke-width: 2px;
+}
+
+/* Card outline states */
+.f3 .card-outline {
+  fill: none;
+}
+.f3 .card-main-outline {
+  stroke: #ffd166;
+  stroke-width: 3px;
+  filter: drop-shadow(0 0 5px rgba(255, 209, 102, 0.55));
+}
+.f3 .card-new-outline {
+  stroke: rgba(255, 255, 255, 0.55);
+  stroke-width: 2px;
+  stroke-dasharray: 6 4;
+}
+
+/* Icon buttons */
+.f3 .card-icon-btn-bg {
+  fill: rgba(44, 65, 73, 0.16);
+  transition: fill 0.2s ease;
 }
 .f3 .card_family_tree rect {
   transition: 0.3s;
@@ -58,34 +114,55 @@
 }
 .f3 .card_add_relative {
   cursor: pointer;
-  color: #fff;
+  color: #2c4149;
   transition: 0.3s;
 }
-.f3 .card_add_relative circle {
-  fill: rgba(0, 0, 0, 0);
-}
 .f3 .card_add_relative:hover {
-  color: black;
+  color: #fff;
+}
+.f3 .card_add_relative:hover .card-icon-btn-bg {
+  fill: #2c4149;
 }
 .f3 .card_edit.pencil_icon {
-  color: #fff;
+  color: #2c4149;
   transition: 0.3s;
 }
 .f3 .card_edit.pencil_icon:hover {
-  color: black;
+  color: #fff;
+}
+.f3 .card_edit.pencil_icon:hover .card-icon-btn-bg {
+  fill: #2c4149;
 }
 .f3 .card_find_relation.chain_icon {
-  color: #fff;
+  color: #2c4149;
   transition: 0.3s;
 }
 .f3 .card_find_relation.chain_icon:hover {
-  color: #ffd166;
+  color: #fff;
+}
+.f3 .card_find_relation.chain_icon:hover .card-icon-btn-bg {
+  fill: #d9932f;
+}
+
+/* Connector lines */
+.f3 path.link {
+  stroke: rgba(226, 238, 243, 0.75);
+  stroke-width: 3px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 4px rgba(150, 200, 220, 0.3));
+  transition: stroke 0.2s ease, stroke-width 0.2s ease;
+}
+.f3 path.link:hover {
+  stroke: #ffffff;
+  stroke-width: 4px;
 }
 
 /* Relation-path highlighting */
 .f3 path.link.path-highlight {
   stroke: #ffd166;
   stroke-width: 4px;
+  filter: drop-shadow(0 0 5px rgba(255, 209, 102, 0.5));
 }
 .f3 path.link.path-highlight.path-highlight-dashed {
   stroke-dasharray: 10 7;

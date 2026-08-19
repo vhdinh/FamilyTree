@@ -216,7 +216,7 @@ function App() {
     useEffect(() => {
         if (!container.current || loading || !members) return;
         const cont = document.querySelector("#FamilyChart");
-        const card_dim = { w: 280, h: 70, text_x: 75, text_y: 15, img_w: 60, img_h: 60, img_x: 5, img_y: 5 };
+        const card_dim = { w: 280, h: 70, text_x: 75, text_y: 12, img_w: 60, img_h: 60, img_x: 5, img_y: 5 };
         const card_display = cardDisplay(),
             card_edit = cardEditParams();
 

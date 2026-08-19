@@ -27,14 +27,14 @@ export function Card(props) {
       card_body_outline = () => CardBodyOutline({d,card_dim,is_new:d.data.to_add}).template,
       card_body = () => !d.data.to_add ? CardBody({d,card_dim, card_display: props.card_display}).template : CardBodyAddNew({d,card_dim, card_add: props.cardEditForm, label: unknown_lbl}).template,
       card_image = () => !d.data.to_add ? CardImage({d, image: d.data.data.avatar || null, card_dim, maleIcon: null, femaleIcon: null}).template : '',
-      edit_icon = () => !d.data.to_add && props.cardEditForm ? PencilIcon({card_dim, x: card_dim.w-46, y: card_dim.h-20}).template : '',
-      add_icon = () => !d.data.to_add && props.cardEditForm ? PlusIcon({card_dim, x: card_dim.w-26, y: card_dim.h-20}).template : '',
-      find_relation_icon = () => !d.data.to_add && props.findRelation ? ChainIcon({card_dim, x: card_dim.text_x, y: card_dim.h-20}).template : '',
+      edit_icon = () => !d.data.to_add && props.cardEditForm ? PencilIcon({card_dim, x: card_dim.w-70, y: card_dim.h-19}).template : '',
+      add_icon = () => !d.data.to_add && props.cardEditForm ? PlusIcon({card_dim, x: card_dim.w-38, y: card_dim.h-19}).template : '',
+      find_relation_icon = () => !d.data.to_add && props.findRelation ? ChainIcon({card_dim, x: card_dim.text_x, y: card_dim.h-19}).template : '',
       link_break_icon = () => LinkBreakIconWrapper({d,card_dim})
 
     el.innerHTML = (`
       <g class="card ${gender_class}" data-id="${d.data.id}" data-cy="card">
-        <g transform="translate(${-card_dim.w / 2}, ${-card_dim.h / 2})">
+        <g class="card-shadow-layer" transform="translate(${-card_dim.w / 2}, ${-card_dim.h / 2})">
           ${props.mini_tree ? mini_tree() : ''}
           ${card_body_outline()}
           <g clip-path="url(#card_clip)">
@@ -80,7 +80,9 @@ export function Card(props) {
 
   function setupSvgDefs() {
     if (props.svg.querySelector("defs#f3CardDef")) return
-    const card_dim = props.card_dim
+    const card_dim = props.card_dim,
+      card_radius = 16,
+      img_r = Math.min(card_dim.img_w, card_dim.img_h)/2 - 2
     props.svg.insertAdjacentHTML('afterbegin', (`
       <defs id="f3CardDef">
         <linearGradient id="fadeGrad">
@@ -89,10 +91,21 @@ export function Card(props) {
           <stop offset="1" stop-color="white" stop-opacity="1"/>
         </linearGradient>
         <mask id="fade" maskContentUnits="objectBoundingBox"><rect width="1" height="1" fill="url(#fadeGrad)"/></mask>
-        <clipPath id="card_clip"><path d="${curvedRectPath({w:card_dim.w, h:card_dim.h}, 5)}"></clipPath>
+        <clipPath id="card_clip"><path d="${curvedRectPath({w:card_dim.w, h:card_dim.h}, card_radius)}"></clipPath>
         <clipPath id="card_text_clip"><rect width="${card_dim.w-card_dim.text_x-10}" height="${card_dim.h-10}"></rect></clipPath>
-        <clipPath id="card_image_clip"><path d="M0,0 Q 0,0 0,0 H${card_dim.img_w} V${card_dim.img_h} H0 Q 0,${card_dim.img_h} 0,${card_dim.img_h} z"></clipPath>
-        <clipPath id="card_image_clip_curved"><path d="${curvedRectPath({w: card_dim.img_w, h:card_dim.img_h}, 5, ['rx', 'ry'])}"></clipPath>
+        <clipPath id="card_image_clip"><circle cx="${card_dim.img_w/2}" cy="${card_dim.img_h/2}" r="${img_r}" /></clipPath>
+        <linearGradient id="card_grad_male" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#d7e9f7"/>
+          <stop offset="1" stop-color="#aecfe8"/>
+        </linearGradient>
+        <linearGradient id="card_grad_female" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fbdfe8"/>
+          <stop offset="1" stop-color="#f0b8cd"/>
+        </linearGradient>
+        <linearGradient id="card_grad_genderless" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#dde2e5"/>
+          <stop offset="1" stop-color="#c1c9ce"/>
+        </linearGradient>
       </defs>
     `))
 
@@ -101,8 +114,8 @@ export function Card(props) {
         c = curve,
         ncc = no_curve_corners || [],
         ncc_check = (corner) => ncc.includes(corner),
-        lx = ncc_check('lx') ? `M0,0` : `M0,${c} Q 0,0 5,0`,
-        rx = ncc_check('rx') ? `H${w}` : `H${w-c} Q ${w},0 ${w},5`,
+        lx = ncc_check('lx') ? `M0,0` : `M0,${c} Q 0,0 ${c},0`,
+        rx = ncc_check('rx') ? `H${w}` : `H${w-c} Q ${w},0 ${w},${c}`,
         ry = ncc_check('ry') ? `V${h}` : `V${h-c} Q ${w},${h} ${w-c},${h}`,
         ly = ncc_check('ly') ? `H0` : `H${c} Q 0,${h} 0,${h-c}`
 
