@@ -171,13 +171,17 @@ function App() {
         store.update.tree({ tree_position: 'fit' });
         view.highlightPath(path, { dashed: !full_coverage });
 
-        const names = path.map(id => formatMemberName(data_stash.find(x => x.id === id)));
+        const chain = path.map(id => ({ id, name: formatMemberName(data_stash.find(x => x.id === id)) }));
         setRelationResult({
             status: full_coverage ? 'found' : 'partial',
-            names,
+            chain,
             fromName,
             toName: formatMemberName(member),
         });
+    };
+
+    const centerOnMember = (id) => {
+        viewRef.current?.centerOn(id);
     };
 
     const relationFilteredMembers = relationQuery.trim() === "" || !findRelationFrom
@@ -536,7 +540,20 @@ function App() {
                                             <span>No relation found between <strong>{relationResult.fromName}</strong> and <strong>{relationResult.toName}</strong>.</span>
                                         ) : (
                                             <>
-                                                <span className="relation-result-chain">{relationResult.names.join(' → ')}</span>
+                                                <span className="relation-result-chain">
+                                                    {relationResult.chain.map((item, i) => (
+                                                        <span key={item.id}>
+                                                            {i > 0 && <span className="relation-result-arrow"> → </span>}
+                                                            <button
+                                                                type="button"
+                                                                className="relation-result-name"
+                                                                onClick={() => centerOnMember(item.id)}
+                                                            >
+                                                                {item.name}
+                                                            </button>
+                                                        </span>
+                                                    ))}
+                                                </span>
                                                 {relationResult.status === 'partial' && (
                                                     <span className="relation-result-caveat">Dashed line: some connecting relatives aren't shown in this view.</span>
                                                 )}

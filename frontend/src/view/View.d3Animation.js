@@ -10,7 +10,15 @@ export default function d3AnimationView({store, cont, Card}) {
   const svg = createSvg();
   setupSvg(svg, store.state.zoom_polite);
 
-  return {update: updateView, svg, setCard: card => Card = card, highlightPath, clearHighlight}
+  return {update: updateView, svg, setCard: card => Card = card, highlightPath, clearHighlight, centerOn}
+
+  function centerOn(id, {transition_time = 800} = {}) {
+    const tree = store.state.tree
+    const datum = tree && tree.data.find(d => d.data.id === id)
+    if (!datum) return false
+    mainToMiddle({datum, svg, svg_dim: svg.getBoundingClientRect(), transition_time})
+    return true
+  }
 
   function highlightPath(path_ids, {dashed = false} = {}) {
     const view = d3.select(svg).select(".view")

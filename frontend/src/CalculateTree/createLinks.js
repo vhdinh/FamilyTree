@@ -30,8 +30,12 @@ export function createLinks({d, tree, is_vertical}) {
     if (!d.children || d.children.length === 0) return
 
     d.children.forEach((child, i) => {
-      const other_parent = otherParent(child, d, tree),
-        sx = other_parent.sx
+      const other_parent = otherParent(child, d, tree)
+      if (!other_parent) {
+        console.warn(`createLinks: could not resolve other parent for child "${child.data.id}" (parent "${d.data.id}") — skipping link. This usually means the child's rels.father/mother points to someone missing from the rendered tree.`)
+        return
+      }
+      const sx = other_parent.sx
 
       links.push({
         d: Link(child, {x: sx, y: d.y}),

@@ -5,7 +5,7 @@ import {deletePerson, moveToAddToAdded} from "./general.js"
 export function cardChangeMain(store, {card, d}) {
   toggleAllRels(store.getTree().data, false)
   store.update.mainId(d.data.id)
-  store.update.tree({tree_position: 'inherit'})
+  store.update.tree({tree_position: 'main_to_middle', transition_time: 1000})
   return true
 }
 

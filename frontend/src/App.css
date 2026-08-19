@@ -653,6 +653,31 @@
   font-weight: 600;
 }
 
+.relation-result-arrow {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.relation-result-name {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease, text-decoration-color 0.15s ease;
+}
+
+.relation-result-name:hover,
+.relation-result-name:focus-visible {
+  color: #ffd166;
+  text-decoration-color: #ffd166;
+}
+
 .relation-result-caveat {
   font-size: 0.75rem;
   color: rgba(255, 255, 255, 0.6);
