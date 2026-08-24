@@ -1,6 +1,7 @@
 import d3 from "../d3.js"
 import {checkIfRelativesConnectedWithoutPerson} from "./checkIfRelativesConnectedWithoutPerson.js"
 import {createTreeDataWithMainNode} from "./newPerson.js"
+import {authFetch} from "../api.js"
 
 export function moveToAddToAdded(datum, data_stash) {
   delete datum.to_add
@@ -24,7 +25,7 @@ export async function deletePerson(datum, data_stash) {
     body: JSON.stringify({id: datum.id}),
   };
   try {
-    const res = await fetch(`${process.env.REACT_APP_API}/member/delete/${datum.id}`, requestOptions)
+    const res = await authFetch(`/member/delete/${datum.id}`, requestOptions)
     const r = await res.json()
     console.log('DELETE DONE', r);
   } catch (e) {

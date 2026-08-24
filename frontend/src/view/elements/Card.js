@@ -10,6 +10,7 @@ import {
 } from "./Card.Elements.js"
 import {cardChangeMain, cardEdit, cardShowHideRels} from "../../handlers/cardMethods.js"
 import {isAllRelativeDisplayed} from "../../handlers/general.js"
+import {escapeHtml} from "../../utils/sanitize.js"
 
 export function Card(props) {
   props = setupProps(props);
@@ -33,7 +34,7 @@ export function Card(props) {
       link_break_icon = () => LinkBreakIconWrapper({d,card_dim})
 
     el.innerHTML = (`
-      <g class="card ${gender_class}" data-id="${d.data.id}" data-cy="card">
+      <g class="card ${gender_class}" data-id="${escapeHtml(d.data.id)}" data-cy="card">
         <g class="card-shadow-layer" transform="translate(${-card_dim.w / 2}, ${-card_dim.h / 2})">
           ${props.mini_tree ? mini_tree() : ''}
           ${card_body_outline()}

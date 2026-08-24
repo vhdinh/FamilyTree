@@ -14,9 +14,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import SearchIcon from '@mui/icons-material/Search';
 import ClearIcon from '@mui/icons-material/Clear';
 import LinkIcon from '@mui/icons-material/Link';
+import { authFetch, getAdminToken, setAdminToken, clearAdminToken } from './api';
 // import data from './mockdata.json';
-
-const ADMIN_SESSION_KEY = 'ft_admin_session';
 
 function App() {
     const container = useRef();
@@ -24,7 +23,7 @@ function App() {
     const [members, setMembers] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
     const [showDropdown, setShowDropdown] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(() => sessionStorage.getItem(ADMIN_SESSION_KEY) === 'true');
+    const [isAdmin, setIsAdmin] = useState(() => !!getAdminToken());
     const [showAdminPin, setShowAdminPin] = useState(false);
     const [pinInput, setPinInput] = useState("");
     const [pinError, setPinError] = useState(false);
@@ -91,27 +90,40 @@ function App() {
         setPinError(false);
     };
 
-    const enableAdmin = () => {
-        sessionStorage.setItem(ADMIN_SESSION_KEY, 'true');
+    const enableAdmin = (token) => {
+        setAdminToken(token);
         setIsAdmin(true);
     };
 
     const disableAdmin = () => {
-        sessionStorage.removeItem(ADMIN_SESSION_KEY);
+        clearAdminToken();
         setIsAdmin(false);
     };
+
+    useEffect(() => {
+        const onUnauthorized = () => disableAdmin();
+        window.addEventListener('ft-admin-unauthorized', onUnauthorized);
+        return () => window.removeEventListener('ft-admin-unauthorized', onUnauthorized);
+    }, []);
 
     const handleSettingsClick = () => {
         if (isAdmin) disableAdmin();
         else setShowAdminPin(true);
     };
 
-    const handlePinSubmit = (e) => {
+    const handlePinSubmit = async (e) => {
         e.preventDefault();
-        if (pinInput === process.env.REACT_APP_ADMIN_PIN) {
-            enableAdmin();
+        try {
+            const res = await fetch(`${process.env.REACT_APP_API}/auth/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ pin: pinInput }),
+            });
+            if (!res.ok) throw new Error('bad pin');
+            const { token } = await res.json();
+            enableAdmin(token);
             closeAdminPin();
-        } else {
+        } catch (e) {
             setPinError(true);
             setPinInput("");
         }
@@ -289,7 +301,7 @@ function App() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(dataToSend),
         };
-        fetch(`${process.env.REACT_APP_API}/member/add-new`, requestOptions)
+        authFetch(`/member/add-new`, requestOptions)
             .then(res => res.json())
             .then((r) => {
                 console.log('new-member-added: ', r);

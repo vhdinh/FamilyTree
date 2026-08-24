@@ -1,4 +1,5 @@
 import {generateUUID, removeToAdd} from "./general.js";
+import {authFetch} from "../api.js"
 
 export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum, store}) {
   if (rel_type === "daughter" || rel_type === "son") return addChild(datum)
@@ -30,7 +31,7 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum, st
       rel_type,
       datum
     });
-    await fetch(`${process.env.REACT_APP_API}/member/add-kid`, requestOptions)
+    await authFetch(`/member/add-kid`, requestOptions)
         .then(res => res.json())
         .then((r) => {
           console.log('ADDED-KID', r);
@@ -79,7 +80,7 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum, st
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dataToSend),
       };
-      fetch(`${process.env.REACT_APP_API}/member/add-parent`, requestOptions)
+      authFetch(`/member/add-parent`, requestOptions)
           .then(res => res.json())
           .then((r) => {
             console.log('ADDED-PARENT', r);
@@ -114,7 +115,7 @@ export function handleRelsOfNewDatum({datum, data_stash, rel_type, rel_datum, st
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(dataToSend),
     };
-    fetch(`${process.env.REACT_APP_API}/member/add-spouse`, requestOptions)
+    authFetch(`/member/add-spouse`, requestOptions)
         .then(res => res.json())
         .then((r) => {
           console.log('ADDED-SPOUSE', r);

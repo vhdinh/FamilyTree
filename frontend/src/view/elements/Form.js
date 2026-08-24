@@ -1,4 +1,5 @@
 import './Form.css'
+import {escapeHtml} from "../../utils/sanitize.js"
 
 export default function Form({datum, rel_datum, store, rel_type, card_edit, postSubmit, card_display, edit: {el, open, close}}) {
   let is_default = !!datum.default
@@ -193,7 +194,7 @@ export default function Form({datum, rel_datum, store, rel_type, card_edit, post
               ? ''
               : rel_datum.rels.spouses.map((sp_id, i) => {
                   const spouse = data_stash.find(d => d.id === sp_id)
-                  return (`<option value="${sp_id}" ${i === 0 ? 'selected' : ''}>${card_display[0](spouse)}</option>`)
+                  return (`<option value="${escapeHtml(sp_id)}" ${i === 0 ? 'selected' : ''}>${escapeHtml(card_display[0](spouse))}</option>`)
                 }).join("\n")}
           <option value="${'_new'}">NEW</option>
         </select>
@@ -217,9 +218,9 @@ export default function Form({datum, rel_datum, store, rel_type, card_edit, post
         <div class="form-field">
           <label>${label}</label>
           ${d.type === 'text'
-            ? `<input type="text" name="${d.key}" placeholder="${label}" value="${datum.data[d.key] || ''}">`
+            ? `<input type="text" name="${d.key}" placeholder="${label}" value="${escapeHtml(datum.data[d.key])}">`
             : d.type === 'textarea'
-            ? `<textarea name="${d.key}" placeholder="${label}">${datum.data[d.key] || ''}</textarea>`
+            ? `<textarea name="${d.key}" placeholder="${label}">${escapeHtml(datum.data[d.key])}</textarea>`
             : ''}
         </div>
       `)

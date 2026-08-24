@@ -1,12 +1,15 @@
+import { escapeHtml, sanitizeUrl, sanitizeDriveId } from "../../utils/sanitize.js"
+
 export function CardBody({d,card_dim,card_display}) {
-  const has_link = card_display[1](d.data) && card_display[2](d.data)
+  const has_link = card_display[1](d.data) && card_display[2](d.data),
+    safe_link = sanitizeUrl(card_display[2](d.data))
   return {template: (`
     <g class="card-body">
       <rect width="${card_dim.w}" height="${card_dim.h}" class="card-body-rect" />
       <g transform="translate(${card_dim.text_x}, ${card_dim.text_y})">
         <text clip-path="url(#card_text_clip)">
-          <tspan class="card-name" x="${0}" dy="${15}">${card_display[0](d.data)}</tspan>
-          <tspan class="card-meta" x="${0}" dy="${18}">${card_display[1](d.data)}</tspan>${has_link ? `<a class="card-social-link" href="${card_display[2](d.data)}" target="facebook"><tspan class="card-social-link-glyph" dx="6">&#8599;</tspan></a>` : ''}
+          <tspan class="card-name" x="${0}" dy="${15}">${escapeHtml(card_display[0](d.data))}</tspan>
+          <tspan class="card-meta" x="${0}" dy="${18}">${escapeHtml(card_display[1](d.data))}</tspan>${has_link && safe_link ? `<a class="card-social-link" href="${escapeHtml(safe_link)}" target="facebook"><tspan class="card-social-link-glyph" dx="6">&#8599;</tspan></a>` : ''}
         </text>
       </g>
     </g>
@@ -156,11 +159,12 @@ export function LinkBreakIconWrapper({d,card_dim}) {
 
 export function CardImage({d, image, card_dim, maleIcon, femaleIcon}) {
   // update to load image id from google drive
+  const safe_image = sanitizeDriveId(image)
   return ({template: (`
     <g style="transform: translate(${card_dim.img_x}px,${card_dim.img_y}px);" class="card_image_wrap">
       <g clip-path="url(#card_image_clip)">
-        ${image
-          ? `<image href="https://drive.google.com/thumbnail?id=${image}&sz=w1000" height="${card_dim.img_h}" width="${card_dim.img_w}" preserveAspectRatio="xMidYMin slice" referrerpolicy="no-referrer" />`
+        ${safe_image
+          ? `<image href="https://drive.google.com/thumbnail?id=${safe_image}&sz=w1000" height="${card_dim.img_h}" width="${card_dim.img_w}" preserveAspectRatio="xMidYMin slice" referrerpolicy="no-referrer" />`
           : (d.data.data.gender === "F" && !!femaleIcon) ? femaleIcon({card_dim})
           : (d.data.data.gender === "M" && !!maleIcon) ? maleIcon({card_dim})
           : GenderlessIcon()

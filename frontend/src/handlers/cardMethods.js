@@ -1,6 +1,7 @@
 import {toggleAllRels, toggleRels} from "../CalculateTree/CalculateTree.handlers.js"
 import AddRelativeTree from "../AddRelativeTree/AddRelativeTree.js"
 import {deletePerson, moveToAddToAdded} from "./general.js"
+import {authFetch} from "../api.js"
 
 export function cardChangeMain(store, {card, d}) {
   toggleAllRels(store.getTree().data, false)
@@ -30,7 +31,7 @@ export function cardEdit(store, {card, d, cardEditForm, status}) {
             };
 
             if (status === 'editing') {
-                fetch(`${process.env.REACT_APP_API}/member/edit/${datum.id}`, requestOptions)
+                authFetch(`/member/edit/${datum.id}`, requestOptions)
                     .then(res => res.json())
                     .then((r) => {
                         console.log('EDIT DONE', r);
@@ -38,7 +39,7 @@ export function cardEdit(store, {card, d, cardEditForm, status}) {
                     console.log('ERROR-EDIT', e);
                 });
             } else if (status === 'adding') {
-                fetch(`${process.env.REACT_APP_API}/member/add-new`, requestOptions)
+                authFetch(`/member/add-new`, requestOptions)
                     .then(res => res.json())
                     .then((r) => {
                         console.log('ADDED-NEW', r);

@@ -25,7 +25,9 @@ async function main() {
     await mongoose.connect(process.env.MONGODB_URL);
 
     const memberRouter = require('./routes/member');
+    const authRouter = require('./routes/auth');
     app.use('/member', memberRouter);
+    app.use('/auth', authRouter);
 
     app.listen(port, () => {
         console.log(`App listening on port ${port}`)
