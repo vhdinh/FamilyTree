@@ -327,25 +327,11 @@ function App() {
         });
 
     if (loading) return (
-        <div
-            style={{
-                position: 'absolute',
-                width: '100%',
-                height: '100%',
-                background: '#3b5560',
-                color: 'white',
-            }}
-        >
-            <div
-                style={{
-                    position: 'absolute',
-                    top: '50%',
-                    width: '100%',
-                    textAlign: 'center',
-                }}
-            >
-                Spinning up server, may take up to 30 secs...
-
+        <div className="loading-screen">
+            <div className="loading-content">
+                <div className="loading-spinner" role="status" aria-label="Loading" />
+                <p className="loading-title">Waking up the family tree…</p>
+                <p className="loading-subtitle">The app naps when nobody's visiting — first load can take up to 30 seconds.</p>
             </div>
         </div>
     );
