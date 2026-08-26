@@ -119,12 +119,21 @@ function App() {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ pin: pinInput }),
             });
-            if (!res.ok) throw new Error('bad pin');
+            if (res.status === 401) {
+                setPinError("Incorrect PIN, try again");
+                setPinInput("");
+                return;
+            }
+            if (!res.ok) {
+                setPinError("Something went wrong, try again in a moment");
+                setPinInput("");
+                return;
+            }
             const { token } = await res.json();
             enableAdmin(token);
             closeAdminPin();
         } catch (e) {
-            setPinError(true);
+            setPinError("Couldn't reach the server, try again");
             setPinInput("");
         }
     };
@@ -468,7 +477,7 @@ function App() {
                                                 onChange={handlePinChange}
                                                 placeholder="••••"
                                             />
-                                            {pinError && <div className="admin-pin-error">Incorrect PIN, try again</div>}
+                                            {pinError && <div className="admin-pin-error">{pinError}</div>}
                                             <div className="admin-pin-actions">
                                                 <button type="button" className="admin-pin-cancel" onClick={closeAdminPin}>
                                                     Cancel
